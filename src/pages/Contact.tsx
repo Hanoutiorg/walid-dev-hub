@@ -1,13 +1,26 @@
 import { useState } from "react";
-import { Mail, Phone, MapPin, Send, Clock, MessageCircle } from "lucide-react";
+import { 
+  Mail, 
+  Phone, 
+  MapPin, 
+  Send, 
+  Clock, 
+  MessageCircle,
+  Linkedin,
+  Github,
+  Twitter,
+  MessageSquare // For WhatsApp
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
-import { useToast } from "@/hooks/use-toast";
+import { useToast } from "@/components/ui/use-toast";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const Contact = () => {
+  const { t, isRTL } = useLanguage();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -25,8 +38,8 @@ const Contact = () => {
     await new Promise(resolve => setTimeout(resolve, 1000));
     
     toast({
-      title: "Message Sent!",
-      description: "Thank you for your message. I'll get back to you soon!",
+      title: t('contact.toast.success.title'),
+      description: t('contact.toast.success.description'),
     });
     
     setFormData({ name: "", email: "", subject: "", message: "" });
@@ -43,32 +56,48 @@ const Contact = () => {
   const contactInfo = [
     {
       icon: Mail,
-      title: "Email",
-      description: "Send me an email",
-      value: "walid@waliddev.com",
-      action: "mailto:walid@waliddev.com",
+      title: t('contact.info.email.title'),
+      description: t('contact.info.email.desc'),
+      value: "oueslatiwalid41@gmail.com",
+      action: "mailto:oueslatiwalid41@gmail.com", // Corrected link
     },
     {
       icon: Phone,
-      title: "Phone",
-      description: "Let's have a call",
-      value: "+216 XX XXX XXX",
-      action: "tel:+216XXXXXXX",
+      title: t('contact.info.phone.title'),
+      description: t('contact.info.phone.desc'),
+      value: "+216 53 311 225",
+      action: "tel:+21653311225",
     },
     {
       icon: MapPin,
-      title: "Location",
-      description: "Based in Tunisia",
+      title: t('contact.info.location.title'),
+      description: t('contact.info.location.desc'),
       value: "Tunis, Tunisia",
       action: "#",
     },
   ];
 
   const socialLinks = [
-    { name: "WhatsApp", icon: "💬", url: "#", color: "bg-green-500" },
-    { name: "LinkedIn", icon: "💼", url: "#", color: "bg-blue-600" },
-    { name: "GitHub", icon: "🐙", url: "#", color: "bg-gray-800" },
-    { name: "Twitter", icon: "🐦", url: "#", color: "bg-blue-400" },
+    { 
+      name: "WhatsApp", 
+      Icon: MessageSquare, 
+      url: "https://wa.me/21653311225" // Real WhatsApp link
+    },
+    { 
+      name: "LinkedIn", 
+      Icon: Linkedin, 
+      url: "https://linkedin.com/in/your-profile" // Replace with your URL
+    },
+    { 
+      name: "GitHub", 
+      Icon: Github, 
+      url: "https://github.com/your-username" // Replace with your URL
+    },
+    { 
+      name: "Twitter", 
+      Icon: Twitter, 
+      url: "https://twitter.com/your-username" // Replace with your URL
+    },
   ];
 
   return (
@@ -77,92 +106,68 @@ const Contact = () => {
         {/* Header */}
         <div className="text-center mb-16">
           <h1 className="text-5xl font-bold mb-6">
-            Get In{" "}
+            {t('contact.title.part1')}{" "}
             <span className="bg-gradient-primary bg-clip-text text-transparent">
-              Touch
+              {t('contact.title.part2')}
             </span>
           </h1>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-            Ready to start your project? Have a question? I'd love to hear from you. 
-            Let's discuss how we can bring your ideas to life.
+            {t('contact.subtitle')}
           </p>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 max-w-7xl mx-auto">
           {/* Contact Form */}
-          <div className="lg:col-span-2">
+          <div className={`lg:col-span-2 ${isRTL ? 'lg:order-2' : ''}`}>
             <Card className="p-8">
               <div className="mb-8">
-                <h2 className="text-2xl font-bold mb-2">Send me a message</h2>
+                <h2 className="text-2xl font-bold mb-2">{t('contact.form.title')}</h2>
                 <p className="text-muted-foreground">
-                  Fill out the form below and I'll get back to you within 24 hours.
+                  {t('contact.form.subtitle')}
                 </p>
               </div>
 
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="space-y-2">
-                    <Label htmlFor="name">Full Name *</Label>
+                    <Label htmlFor="name">{t('contact.form.name.label')}</Label>
                     <Input
-                      id="name"
-                      name="name"
-                      value={formData.name}
-                      onChange={handleChange}
-                      placeholder="Your full name"
-                      required
+                      id="name" name="name" value={formData.name} onChange={handleChange}
+                      placeholder={t('contact.form.name.placeholder')} required
                     />
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="email">Email Address *</Label>
+                    <Label htmlFor="email">{t('contact.form.email.label')}</Label>
                     <Input
-                      id="email"
-                      name="email"
-                      type="email"
-                      value={formData.email}
-                      onChange={handleChange}
-                      placeholder="your@email.com"
-                      required
+                      id="email" name="email" type="email" value={formData.email} onChange={handleChange}
+                      placeholder={t('contact.form.email.placeholder')} required
                     />
                   </div>
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="subject">Subject *</Label>
+                  <Label htmlFor="subject">{t('contact.form.subject.label')}</Label>
                   <Input
-                    id="subject"
-                    name="subject"
-                    value={formData.subject}
-                    onChange={handleChange}
-                    placeholder="What's this about?"
-                    required
+                    id="subject" name="subject" value={formData.subject} onChange={handleChange}
+                    placeholder={t('contact.form.subject.placeholder')} required
                   />
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="message">Message *</Label>
+                  <Label htmlFor="message">{t('contact.form.message.label')}</Label>
                   <Textarea
-                    id="message"
-                    name="message"
-                    value={formData.message}
-                    onChange={handleChange}
-                    placeholder="Tell me about your project or ask any questions..."
-                    rows={6}
-                    required
+                    id="message" name="message" value={formData.message} onChange={handleChange}
+                    placeholder={t('contact.form.message.placeholder')} rows={6} required
                   />
                 </div>
 
-                <Button 
-                  type="submit" 
-                  size="lg" 
-                  className="w-full bg-gradient-primary"
-                  disabled={isSubmitting}
-                >
+                <Button type="submit" size="lg" className="w-full bg-gradient-primary" disabled={isSubmitting}>
                   {isSubmitting ? (
-                    "Sending..."
+                    t('contact.form.button.sending')
                   ) : (
                     <>
-                      <Send className="w-4 h-4 mr-2" />
-                      Send Message
+                      <Send className={`w-4 h-4 ${isRTL ? 'ml-2' : 'mr-2'}`} />
+                      {t('contact.form.button.send')}
                     </>
                   )}
                 </Button>
@@ -171,27 +176,19 @@ const Contact = () => {
           </div>
 
           {/* Contact Info */}
-          <div className="space-y-8">
-            {/* Quick Response */}
-            <Card className="p-6 bg-gradient-subtle">
+          <div className={`space-y-8 ${isRTL ? 'lg:order-1' : ''}`}>
+            <Card className="p-6 bg-muted/50">
               <div className="text-center">
                 <Clock className="w-8 h-8 text-primary mx-auto mb-4" />
-                <h3 className="font-bold mb-2">Quick Response</h3>
-                <p className="text-sm text-muted-foreground">
-                  I typically respond within 2-4 hours during business hours
-                </p>
+                <h3 className="font-bold mb-2">{t('contact.info.response.title')}</h3>
+                <p className="text-sm text-muted-foreground">{t('contact.info.response.desc')}</p>
               </div>
             </Card>
 
-            {/* Contact Information */}
             <div className="space-y-4">
-              <h3 className="text-xl font-bold mb-4">Contact Information</h3>
+              <h3 className="text-xl font-bold mb-4">{t('contact.info.title')}</h3>
               {contactInfo.map((info, index) => (
-                <a
-                  key={index}
-                  href={info.action}
-                  className="flex items-center gap-4 p-4 rounded-lg hover:bg-surface transition-colors"
-                >
+                <a key={index} href={info.action} className="flex items-center gap-4 p-4 rounded-lg hover:bg-surface transition-colors">
                   <div className="w-12 h-12 bg-gradient-primary rounded-full flex items-center justify-center">
                     <info.icon className="w-6 h-6 text-white" />
                   </div>
@@ -204,34 +201,30 @@ const Contact = () => {
               ))}
             </div>
 
-            {/* Social Links */}
             <div>
-              <h3 className="text-xl font-bold mb-4">Connect With Me</h3>
+              <h3 className="text-xl font-bold mb-4">{t('contact.socials.title')}</h3>
               <div className="grid grid-cols-2 gap-3">
                 {socialLinks.map((link, index) => (
                   <a
                     key={index}
                     href={link.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="flex items-center gap-3 p-3 rounded-lg border hover:shadow-sm transition-all"
                   >
-                    <span className="text-lg">{link.icon}</span>
+                    <link.Icon className="w-5 h-5 text-muted-foreground" />
                     <span className="font-medium text-sm">{link.name}</span>
                   </a>
                 ))}
               </div>
             </div>
 
-            {/* Availability */}
             <Card className="p-6">
               <div className="text-center">
                 <MessageCircle className="w-8 h-8 text-primary mx-auto mb-4" />
-                <h3 className="font-bold mb-2">Available for Projects</h3>
-                <p className="text-sm text-muted-foreground mb-4">
-                  Currently accepting new projects and collaborations
-                </p>
-                <Button className="w-full bg-gradient-primary">
-                  Schedule a Call
-                </Button>
+                <h3 className="font-bold mb-2">{t('contact.availability.title')}</h3>
+                <p className="text-sm text-muted-foreground mb-4">{t('contact.availability.desc')}</p>
+                <Button className="w-full bg-gradient-primary">{t('contact.availability.button')}</Button>
               </div>
             </Card>
           </div>
@@ -239,35 +232,23 @@ const Contact = () => {
 
         {/* FAQ Section */}
         <div className="mt-20 max-w-4xl mx-auto">
-          <h2 className="text-3xl font-bold text-center mb-12">Frequently Asked Questions</h2>
+          <h2 className="text-3xl font-bold text-center mb-12">{t('contact.faq.title')}</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <Card className="p-6">
-              <h3 className="font-bold mb-3">How long does a typical project take?</h3>
-              <p className="text-muted-foreground text-sm">
-                Project timelines vary based on complexity. Simple landing pages take 2-4 days, 
-                while complex web applications can take 2-4 weeks.
-              </p>
+              <h3 className="font-bold mb-3">{t('contact.faq.q1.title')}</h3>
+              <p className="text-muted-foreground text-sm">{t('contact.faq.q1.desc')}</p>
             </Card>
             <Card className="p-6">
-              <h3 className="font-bold mb-3">Do you provide ongoing support?</h3>
-              <p className="text-muted-foreground text-sm">
-                Yes! I offer post-launch support and maintenance services to ensure your 
-                website continues to perform optimally.
-              </p>
+              <h3 className="font-bold mb-3">{t('contact.faq.q2.title')}</h3>
+              <p className="text-muted-foreground text-sm">{t('contact.faq.q2.desc')}</p>
             </Card>
             <Card className="p-6">
-              <h3 className="font-bold mb-3">What's your payment process?</h3>
-              <p className="text-muted-foreground text-sm">
-                I typically work with 50% upfront and 50% upon completion. For larger projects, 
-                we can discuss milestone-based payments.
-              </p>
+              <h3 className="font-bold mb-3">{t('contact.faq.q3.title')}</h3>
+              <p className="text-muted-foreground text-sm">{t('contact.faq.q3.desc')}</p>
             </Card>
             <Card className="p-6">
-              <h3 className="font-bold mb-3">Can you work with my existing team?</h3>
-              <p className="text-muted-foreground text-sm">
-                Absolutely! I'm experienced in collaborating with designers, project managers, 
-                and other developers to deliver great results.
-              </p>
+              <h3 className="font-bold mb-3">{t('contact.faq.q4.title')}</h3>
+              <p className="text-muted-foreground text-sm">{t('contact.faq.q4.desc')}</p>
             </Card>
           </div>
         </div>

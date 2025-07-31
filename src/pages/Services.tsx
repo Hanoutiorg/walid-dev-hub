@@ -1,79 +1,111 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { Filter, Clock, DollarSign, ArrowRight, Check } from "lucide-react";
+import { Clock, DollarSign, ArrowRight, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const Services = () => {
+  const { t, isRTL } = useLanguage();
   const [filter, setFilter] = useState("all");
   const [sortBy, setSortBy] = useState("price");
 
   const services = [
     {
       id: 1,
-      title: "Business Landing Page",
-      description: "A professional, conversion-focused landing page designed to showcase your business and capture leads effectively.",
+      titleKey: "services.item.landingPage.title",
+      descriptionKey: "services.item.landingPage.desc",
       category: "frontend",
       price: { tnd: "300-500", usd: "100-150" },
-      delivery: "2-4 days",
-      features: ["Responsive Design", "Contact Forms", "SEO Optimized", "Fast Loading"],
+      deliveryKey: "services.item.landingPage.delivery",
+      features: [
+        t("services.item.landingPage.feature1"),
+        t("services.item.landingPage.feature2"),
+        t("services.item.landingPage.feature3"),
+        t("services.item.landingPage.feature4"),
+      ],
       icon: "🌐",
       popular: false,
     },
     {
       id: 2,
-      title: "E-commerce Website",
-      description: "Complete online store with product catalog, shopping cart, payment integration, and admin panel.",
+      titleKey: "services.item.ecommerce.title",
+      descriptionKey: "services.item.ecommerce.desc",
       category: "fullstack",
       price: { tnd: "1500-3000", usd: "500-1000" },
-      delivery: "1-3 weeks",
-      features: ["Product Management", "Payment Gateway", "Order Tracking", "Admin Dashboard"],
+      deliveryKey: "services.item.ecommerce.delivery",
+      features: [
+        t("services.item.ecommerce.feature1"),
+        t("services.item.ecommerce.feature2"),
+        t("services.item.ecommerce.feature3"),
+        t("services.item.ecommerce.feature4"),
+      ],
       icon: "🛒",
       popular: true,
     },
     {
       id: 3,
-      title: "Admin Dashboard",
-      description: "Powerful dashboard with analytics, user management, data visualization, and business insights.",
+      titleKey: "services.item.dashboard.title",
+      descriptionKey: "services.item.dashboard.desc",
       category: "fullstack",
       price: { tnd: "1000-2000", usd: "300-600" },
-      delivery: "1-2 weeks",
-      features: ["User Management", "Analytics", "Data Visualization", "Export Features"],
+      deliveryKey: "services.item.dashboard.delivery",
+      features: [
+        t("services.item.dashboard.feature1"),
+        t("services.item.dashboard.feature2"),
+        t("services.item.dashboard.feature3"),
+        t("services.item.dashboard.feature4"),
+      ],
       icon: "📊",
       popular: false,
     },
     {
       id: 4,
-      title: "Portfolio Website",
-      description: "Stunning portfolio website to showcase your work, skills, and attract potential clients or employers.",
+      titleKey: "services.item.portfolio.title",
+      descriptionKey: "services.item.portfolio.desc",
       category: "frontend",
       price: { tnd: "400-800", usd: "120-250" },
-      delivery: "3-5 days",
-      features: ["Portfolio Gallery", "Contact Forms", "Blog Section", "Mobile Optimized"],
+      deliveryKey: "services.item.portfolio.delivery",
+      features: [
+        t("services.item.portfolio.feature1"),
+        t("services.item.portfolio.feature2"),
+        t("services.item.portfolio.feature3"),
+        t("services.item.portfolio.feature4"),
+      ],
       icon: "🎨",
       popular: false,
     },
     {
       id: 5,
-      title: "Web Application",
-      description: "Custom web application tailored to your specific business needs with full backend integration.",
+      titleKey: "services.item.webapp.title",
+      descriptionKey: "services.item.webapp.desc",
       category: "fullstack",
       price: { tnd: "2000-5000", usd: "600-1500" },
-      delivery: "2-4 weeks",
-      features: ["Custom Features", "Database Design", "API Integration", "User Authentication"],
+      deliveryKey: "services.item.webapp.delivery",
+      features: [
+        t("services.item.webapp.feature1"),
+        t("services.item.webapp.feature2"),
+        t("services.item.webapp.feature3"),
+        t("services.item.webapp.feature4"),
+      ],
       icon: "⚡",
       popular: true,
     },
     {
       id: 6,
-      title: "UI/UX Design",
-      description: "Professional UI/UX design services including wireframes, prototypes, and design systems.",
+      titleKey: "services.item.uiux.title",
+      descriptionKey: "services.item.uiux.desc",
       category: "design",
       price: { tnd: "600-1200", usd: "200-400" },
-      delivery: "1-2 weeks",
-      features: ["Wireframes", "Prototypes", "Design System", "User Research"],
+      deliveryKey: "services.item.uiux.delivery",
+      features: [
+        t("services.item.uiux.feature1"),
+        t("services.item.uiux.feature2"),
+        t("services.item.uiux.feature3"),
+        t("services.item.uiux.feature4"),
+      ],
       icon: "🎯",
       popular: false,
     },
@@ -84,11 +116,27 @@ const Services = () => {
   );
 
   const categories = [
-    { value: "all", label: "All Services" },
-    { value: "frontend", label: "Frontend" },
-    { value: "fullstack", label: "Full-Stack" },
-    { value: "design", label: "UI/UX Design" },
+    { value: "all", label: t("services.filter.all") },
+    { value: "frontend", label: t("services.filter.frontend") },
+    { value: "fullstack", label: t("services.filter.fullstack") },
+    { value: "design", label: t("services.filter.design") },
   ];
+  
+  // Logic for sorting if you want to implement it
+  // This is a basic example; you might need more complex logic for price ranges or delivery times
+  const sortedServices = [...filteredServices].sort((a, b) => {
+    if (sortBy === 'popular') {
+      return b.popular - a.popular;
+    }
+    if (sortBy === 'price') {
+      const priceA = parseInt(a.price.tnd.split('-')[0], 10);
+      const priceB = parseInt(b.price.tnd.split('-')[0], 10);
+      return priceA - priceB;
+    }
+    // Add logic for delivery time if needed
+    return 0;
+  });
+
 
   return (
     <div className="min-h-screen py-20">
@@ -96,22 +144,20 @@ const Services = () => {
         {/* Header */}
         <div className="text-center mb-16">
           <h1 className="text-5xl font-bold mb-6">
-            My{" "}
             <span className="bg-gradient-primary bg-clip-text text-transparent">
-              Services
+              {t('services.pageTitle')}
             </span>
           </h1>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-            Professional web development services tailored to your needs. From simple landing pages 
-            to complex web applications, I deliver quality solutions with modern technologies.
+            {t('services.pageSubtitle')}
           </p>
         </div>
 
         {/* Filters */}
-        <div className="flex flex-col sm:flex-row gap-4 mb-12 max-w-2xl mx-auto">
-          <Select value={filter} onValueChange={setFilter}>
-            <SelectTrigger className="w-full sm:w-48">
-              <SelectValue placeholder="Filter by category" />
+        <div className={`flex flex-col sm:flex-row gap-4 mb-12 max-w-2xl mx-auto ${isRTL ? 'sm:flex-row-reverse' : ''}`}>
+          <Select value={filter} onValueChange={setFilter} dir={isRTL ? 'rtl' : 'ltr'}>
+            <SelectTrigger className="w-full sm:flex-1">
+              <SelectValue placeholder={t('services.filter.placeholder')} />
             </SelectTrigger>
             <SelectContent>
               {categories.map((category) => (
@@ -122,39 +168,39 @@ const Services = () => {
             </SelectContent>
           </Select>
 
-          <Select value={sortBy} onValueChange={setSortBy}>
-            <SelectTrigger className="w-full sm:w-48">
-              <SelectValue placeholder="Sort by" />
+          <Select value={sortBy} onValueChange={setSortBy} dir={isRTL ? 'rtl' : 'ltr'}>
+            <SelectTrigger className="w-full sm:flex-1">
+              <SelectValue placeholder={t('services.sort.placeholder')} />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="price">Price</SelectItem>
-              <SelectItem value="delivery">Delivery Time</SelectItem>
-              <SelectItem value="popular">Popularity</SelectItem>
+              <SelectItem value="price">{t('services.sort.price')}</SelectItem>
+              <SelectItem value="delivery">{t('services.sort.delivery')}</SelectItem>
+              <SelectItem value="popular">{t('services.sort.popular')}</SelectItem>
             </SelectContent>
           </Select>
         </div>
 
         {/* Services Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
-          {filteredServices.map((service) => (
-            <Card key={service.id} className="relative p-6 hover:shadow-card transition-all duration-300 hover:-translate-y-2">
+          {sortedServices.map((service) => (
+            <Card key={service.id} className="relative flex flex-col p-6 hover:shadow-card transition-all duration-300 hover:-translate-y-2">
               {service.popular && (
-                <Badge className="absolute -top-2 -right-2 bg-gradient-primary text-white">
-                  Popular
+                <Badge className={`absolute -top-2 ${isRTL ? '-left-2' : '-right-2'} bg-gradient-primary text-primary-foreground`}>
+                  {t('services.item.popular')}
                 </Badge>
               )}
               
               <div className="text-center mb-6">
                 <div className="text-4xl mb-4">{service.icon}</div>
-                <h3 className="text-xl font-bold mb-2">{service.title}</h3>
-                <p className="text-muted-foreground text-sm">{service.description}</p>
+                <h3 className="text-xl font-bold mb-2">{t(service.titleKey)}</h3>
+                <p className="text-muted-foreground text-sm h-20">{t(service.descriptionKey)}</p>
               </div>
 
               <div className="space-y-4 mb-6">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
                     <DollarSign className="w-4 h-4 text-primary" />
-                    <span className="text-sm font-medium">Price</span>
+                    <span className="text-sm font-medium">{t('services.item.priceLabel')}</span>
                   </div>
                   <div className="text-right">
                     <div className="font-semibold text-primary">{service.price.tnd} TND</div>
@@ -165,34 +211,34 @@ const Services = () => {
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
                     <Clock className="w-4 h-4 text-primary" />
-                    <span className="text-sm font-medium">Delivery</span>
+                    <span className="text-sm font-medium">{t('services.item.deliveryLabel')}</span>
                   </div>
-                  <span className="text-sm text-muted-foreground">{service.delivery}</span>
+                  <span className="text-sm text-muted-foreground">{t(service.deliveryKey)}</span>
                 </div>
               </div>
 
-              <div className="mb-6">
-                <h4 className="font-medium mb-3">What's Included:</h4>
+              <div className="mb-6 flex-grow">
+                <h4 className="font-medium mb-3">{t('services.item.includedTitle')}</h4>
                 <ul className="space-y-2">
                   {service.features.map((feature, index) => (
-                    <li key={index} className="flex items-center gap-2 text-sm">
-                      <Check className="w-4 h-4 text-green-500 flex-shrink-0" />
-                      <span>{feature}</span>
+                    <li key={index} className="flex items-start gap-3">
+                      <Check className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" />
+                      <span className="text-sm">{feature}</span>
                     </li>
                   ))}
                 </ul>
               </div>
 
-              <div className="space-y-3">
-                <Button className="w-full bg-gradient-primary" size="sm">
+              <div className="space-y-3 mt-auto">
+                <Button asChild className="w-full bg-gradient-primary" size="sm">
                   <Link to={`/request/${service.id}`} className="flex items-center gap-2">
-                    Request Quote
-                    <ArrowRight className="w-4 h-4" />
+                    {t('services.item.requestQuote')}
+                    <ArrowRight className={`w-4 h-4 ${isRTL ? 'transform -scale-x-100' : ''}`} />
                   </Link>
                 </Button>
-                <Button variant="outline" className="w-full" size="sm">
+                <Button asChild variant="outline" className="w-full" size="sm">
                   <Link to="/contact">
-                    Ask Questions
+                    {t('services.item.askQuestion')}
                   </Link>
                 </Button>
               </div>
@@ -201,15 +247,14 @@ const Services = () => {
         </div>
 
         {/* Custom Service Section */}
-        <div className="mt-20 bg-gradient-subtle rounded-2xl p-8 max-w-4xl mx-auto text-center">
-          <h2 className="text-3xl font-bold mb-4">Need Something Custom?</h2>
+        <div className="mt-20 bg-muted/80 rounded-2xl p-8 max-w-4xl mx-auto text-center">
+          <h2 className="text-3xl font-bold mb-4">{t('services.cta.title')}</h2>
           <p className="text-muted-foreground mb-6">
-            Don't see exactly what you're looking for? I offer custom development services 
-            tailored to your specific requirements. Let's discuss your project!
+            {t('services.cta.subtitle')}
           </p>
-          <Button size="lg" className="bg-gradient-primary">
+          <Button asChild size="lg" className="bg-gradient-primary">
             <Link to="/contact">
-              Discuss Custom Project
+              {t('services.cta.button')}
             </Link>
           </Button>
         </div>

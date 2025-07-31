@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useState, useEffect } from 'react';
 
 type Language = 'en' | 'fr' | 'ar';
 
@@ -13,110 +13,253 @@ const LanguageContext = createContext<LanguageContextType | undefined>(undefined
 
 const translations = {
   en: {
-    // Navigation
+    // =================================================================
+    // 1. NAVIGATION & COMMON
+    // =================================================================
     'nav.home': 'Home',
     'nav.about': 'About',
     'nav.services': 'Services',
     'nav.portfolio': 'Portfolio',
     'nav.contact': 'Contact',
     'nav.getQuote': 'Get Quote',
-    
-    // Hero Section
+    'common.loading': 'Loading...',
+    'common.error': 'Error',
+    'common.success': 'Success',
+    'common.required': 'Required',
+
+    // =================================================================
+    // 2. HOME PAGE
+    // =================================================================
     'hero.title': 'Crafting Beautiful Web Experiences',
     'hero.subtitle': 'Full-Stack Developer specializing in React, Node.js, and modern web technologies.\nBringing your ideas to life with clean code and stunning design.',
     'hero.exploreServices': 'Explore Services',
     'hero.viewPortfolio': 'View Portfolio',
-    
-    // Features
     'feature.cleanCode.title': 'Clean Code',
     'feature.cleanCode.desc': 'Writing maintainable, scalable, and efficient code',
     'feature.modernDesign.title': 'Modern Design',
     'feature.modernDesign.desc': 'Creating beautiful, responsive user interfaces',
     'feature.fastDelivery.title': 'Fast Delivery',
     'feature.fastDelivery.desc': 'Quick turnaround without compromising quality',
-    
-    // Stats
     'stats.clients': 'Happy Clients',
     'stats.projects': 'Projects Completed',
     'stats.experience': 'Years Experience',
-    
-    // Services
-    'services.title': 'What I Can Do For You',
-    'services.subtitle': 'From simple landing pages to complex full-stack applications, I deliver quality solutions.',
-    'services.landing.title': 'Landing Pages',
-    'services.landing.desc': 'Beautiful, conversion-focused landing pages that capture leads and drive sales.',
-    'services.dashboard.title': 'Admin Dashboards',
-    'services.dashboard.desc': 'Powerful dashboards with analytics, user management, and business insights.',
-    'services.fullstack.title': 'Full-Stack Apps',
-    'services.fullstack.desc': 'Complete web applications with backend, database, and modern frontend.',
-    'services.startingAt': 'Starting at',
-    'services.viewAll': 'View All Services',
-    
-    // Testimonials
+    'services.title': 'What I Can Do For You', // For Home Page
+    'services.subtitle': 'From simple landing pages to complex full-stack applications, I deliver quality solutions.', // For Home Page
+    'services.landing.title': 'Landing Pages', // For Home Page
+    'services.landing.desc': 'Beautiful, conversion-focused landing pages that capture leads and drive sales.', // For Home Page
+    'services.dashboard.title': 'Admin Dashboards', // For Home Page
+    'services.dashboard.desc': 'Powerful dashboards with analytics, user management, and business insights.', // For Home Page
+    'services.fullstack.title': 'Full-Stack Apps', // For Home Page
+    'services.fullstack.desc': 'Complete web applications with backend, database, and modern frontend.', // For Home Page
+    'services.startingAt': 'Starting at', // For Home Page
+    'services.viewAll': 'View All Services', // For Home Page
     'testimonials.title': 'What Clients Say',
     'testimonials.subtitle': "Don't just take my word for it - here's what my clients think.",
-    
-    // CTA
-    'cta.title': 'Ready to Start Your Project?',
-    'cta.subtitle': "Let's discuss your ideas and bring them to life with beautiful, functional web solutions.",
-    'cta.getStarted': 'Get Started Today',
-    'cta.browseServices': 'Browse Services',
-    
-    // About Page
-    'about.title': 'About Walid',
-    'about.intro': "I'm a passionate full-stack developer from Tunisia, specializing in creating beautiful, functional web applications that solve real-world problems. With over 3 years of experience, I help businesses and entrepreneurs bring their digital visions to life.",
+    'cta.title': 'Ready to Start Your Project?', // For Home Page
+    'cta.subtitle': "Let's discuss your ideas and bring them to life with beautiful, functional web solutions.", // For Home Page
+    'cta.getStarted': 'Get Started Today', // For Home Page
+    'cta.browseServices': 'Browse Services', // For Home Page
+
+    // =================================================================
+    // 3. ABOUT PAGE
+    // =================================================================
+    'about.pageTitle': 'About Walid',
+    'about.pageSubtitle': "I'm a passionate full-stack developer from Tunisia, specializing in creating beautiful, functional web applications that solve real-world problems. With over 3 years of experience, I help businesses and entrepreneurs bring their digital visions to life.",
     'about.story.title': 'My Story',
+    'about.story.p1': 'My journey into web development started during my computer science studies, where I discovered the perfect blend of creativity and logic that programming offers. What began as curiosity quickly became a passion.',
+    'about.story.p2': "Over the years, I've worked with clients ranging from small startups to established businesses, helping them establish their online presence and streamline their operations through custom web solutions.",
+    'about.story.p3': 'I believe in writing clean, maintainable code and creating user experiences that not only look great but also perform exceptionally well. Every project is an opportunity to learn something new and deliver something amazing.',
+    'about.facts.title': 'Quick Facts',
+    'about.facts.f1': 'Computer Science Graduate',
+    'about.facts.f2': 'Based in Tunisia',
+    'about.facts.f3': '3+ Years of Experience',
+    'about.facts.f4': 'Fast Turnaround Time',
+    'about.facts.f5': 'Fluent in Arabic, French & English',
     'about.skills.title': 'Technical Skills',
+    'about.skills.frontend': 'Frontend',
+    'about.skills.backend': 'Backend',
+    'about.skills.mobile': 'Mobile',
+    'about.skills.tools': 'Tools',
     'about.achievements.title': 'Achievements & Values',
+    'about.achievements.a1.title': '50+ Happy Clients',
+    'about.achievements.a1.desc': 'Delivered successful projects across various industries',
+    'about.achievements.a2.title': '100% Client Satisfaction',
+    'about.achievements.a2.desc': 'Maintained perfect rating with timely delivery',
+    'about.achievements.a3.title': '3+ Years Experience',
+    'about.achievements.a3.desc': 'Continuous learning and adapting to new technologies',
     'about.process.title': 'My Working Process',
+    'about.process.step1.title': 'Discovery',
+    'about.process.step1.desc': 'Understanding your needs and goals',
+    'about.process.step2.title': 'Design',
+    'about.process.step2.desc': 'Creating wireframes and mockups',
+    'about.process.step3.title': 'Development',
+    'about.process.step3.desc': 'Building with clean, scalable code',
+    'about.process.step4.title': 'Delivery',
+    'about.process.step4.desc': 'Testing, optimization, and launch',
     
-    // Contact
-    'contact.title': 'Get In Touch',
+    // =================================================================
+    // 4. SERVICES PAGE
+    // =================================================================
+    'services.pageTitle': 'My Services',
+    'services.pageSubtitle': 'Professional web development services tailored to your needs. From simple landing pages to complex web applications, I deliver quality solutions with modern technologies.',
+    'services.filter.placeholder': 'Filter by category',
+    'services.sort.placeholder': 'Sort by',
+    'services.filter.all': 'All Services',
+    'services.filter.frontend': 'Frontend',
+    'services.filter.fullstack': 'Full-Stack',
+    'services.filter.design': 'UI/UX Design',
+    'services.sort.price': 'Price',
+    'services.sort.delivery': 'Delivery Time',
+    'services.sort.popular': 'Popularity',
+    'services.item.popular': 'Popular',
+    'services.item.priceLabel': 'Price',
+    'services.item.deliveryLabel': 'Delivery',
+    'services.item.includedTitle': "What's Included:",
+    'services.item.requestQuote': 'Request Quote',
+    'services.item.askQuestion': 'Ask Questions',
+    'services.cta.title': 'Need Something Custom?',
+    'services.cta.subtitle': "Don't see exactly what you're looking for? I offer custom development services tailored to your specific requirements. Let's discuss your project!",
+    'services.cta.button': 'Discuss Custom Project',
+    'services.item.landingPage.title': 'Business Landing Page',
+    'services.item.landingPage.desc': 'A professional, conversion-focused landing page designed to showcase your business and capture leads effectively.',
+    'services.item.landingPage.delivery': '2-4 days',
+    'services.item.landingPage.feature1': 'Responsive Design',
+    'services.item.landingPage.feature2': 'Contact Forms',
+    'services.item.landingPage.feature3': 'SEO Optimized',
+    'services.item.landingPage.feature4': 'Fast Loading',
+    'services.item.ecommerce.title': 'E-commerce Website',
+    'services.item.ecommerce.desc': 'Complete online store with product catalog, shopping cart, payment integration, and admin panel.',
+    'services.item.ecommerce.delivery': '1-3 weeks',
+    'services.item.ecommerce.feature1': 'Product Management',
+    'services.item.ecommerce.feature2': 'Payment Gateway',
+    'services.item.ecommerce.feature3': 'Order Tracking',
+    'services.item.ecommerce.feature4': 'Admin Dashboard',
+    'services.item.dashboard.title': 'Admin Dashboard',
+    'services.item.dashboard.desc': 'Powerful dashboard with analytics, user management, data visualization, and business insights.',
+    'services.item.dashboard.delivery': '1-2 weeks',
+    'services.item.dashboard.feature1': 'User Management',
+    'services.item.dashboard.feature2': 'Analytics',
+    'services.item.dashboard.feature3': 'Data Visualization',
+    'services.item.dashboard.feature4': 'Export Features',
+    'services.item.portfolio.title': 'Portfolio Website',
+    'services.item.portfolio.desc': 'Stunning portfolio website to showcase your work, skills, and attract potential clients or employers.',
+    'services.item.portfolio.delivery': '3-5 days',
+    'services.item.portfolio.feature1': 'Portfolio Gallery',
+    'services.item.portfolio.feature2': 'Contact Forms',
+    'services.item.portfolio.feature3': 'Blog Section',
+    'services.item.portfolio.feature4': 'Mobile Optimized',
+    'services.item.webapp.title': 'Web Application',
+    'services.item.webapp.desc': 'Custom web application tailored to your specific business needs with full backend integration.',
+    'services.item.webapp.delivery': '2-4 weeks',
+    'services.item.webapp.feature1': 'Custom Features',
+    'services.item.webapp.feature2': 'Database Design',
+    'services.item.webapp.feature3': 'API Integration',
+    'services.item.webapp.feature4': 'User Authentication',
+    'services.item.uiux.title': 'UI/UX Design',
+    'services.item.uiux.desc': 'Professional UI/UX design services including wireframes, prototypes, and design systems.',
+    'services.item.uiux.delivery': '1-2 weeks',
+    'services.item.uiux.feature1': 'Wireframes',
+    'services.item.uiux.feature2': 'Prototypes',
+    'services.item.uiux.feature3': 'Design System',
+    'services.item.uiux.feature4': 'User Research',
+
+    // =================================================================
+    // 5. PORTFOLIO PAGE
+    // =================================================================
+    'portfolio.title.part1': 'My',
+    'portfolio.title.part2': 'Portfolio',
+    'portfolio.pageSubtitle': 'A showcase of my real-world projects, each representing a unique challenge and demonstrating my commitment to high-quality, functional solutions.',
+    'portfolio.filter.all': "All Projects",
+    'portfolio.featured.title': "Featured Projects",
+    'portfolio.all.title': "All Projects",
+    'portfolio.liveDemo': "Live Demo",
+    'portfolio.code': "Code",
+    'portfolio.featured': "Featured",
+    'portfolio.cta.title': "Impressed by What You See?",
+    'portfolio.cta.subtitle': "Ready to start your own project? Let’s discuss your ideas and create something amazing together.",
+    'portfolio.cta.start': "Start Your Project",
+    'portfolio.cta.github': "View on GitHub",
+    'project.digitalGuide.title': 'Digital Guide – Ministry of Industry, Mines and Energy',
+    'project.digitalGuide.desc': 'Interactive digital guide enabling admins to manage text, images, tables, links, and dynamic HTML content via user/admin CRM-style interfaces.',
+    'project.curvesSmiles.title': 'Curves and Smiles Platform',
+    'project.curvesSmiles.desc': 'Frontend development of an AI-powered dentistry solution with 3D dental models via Three.js and HTMX integration.',
+    'project.truckManagement.title': 'Truck Management App',
+    'project.truckManagement.desc': 'Fleet management application for monitoring truck maintenance and inventory with intuitive tracking UI.',
+    'project.collabSmile.title': 'CollabSmile Mobile App',
+    'project.collabSmile.desc': 'React Native app (Expo) connecting dentists and prosthetists with patient management, messaging, and 3D model sharing.',
+    'project.goZone.title': 'GoZone Blogging Platform',
+    'project.goZone.desc': 'Django-based platform allowing content creators to publish and manage blogs with a built-in editor.',
+    'project.koora.title': 'Koora Analytics',
+    'project.koora.desc': 'Web app providing detailed football match, team, and player analytics with clear performance dashboards.',
+
+    // =================================================================
+    // 6. CONTACT PAGE
+    // =================================================================
+    'contact.title.part1': 'Get In',
+    'contact.title.part2': 'Touch',
     'contact.subtitle': 'Ready to start your project? Have a question? I\'d love to hear from you. Let\'s discuss how we can bring your ideas to life.',
     'contact.form.title': 'Send me a message',
     'contact.form.subtitle': "I'll get back to you within 24 hours.",
-    'contact.form.name': 'Full Name',
-    'contact.form.email': 'Email Address',
-    'contact.form.subject': 'Subject',
-    'contact.form.message': 'Message',
-    'contact.form.send': 'Send Message',
-    
-    // Common
-    'common.loading': 'Loading...',
-    'common.error': 'Error',
-    'common.success': 'Success',
-    'common.required': 'Required',
+    'contact.form.name.label': 'Full Name *',
+    'contact.form.name.placeholder': 'Your full name',
+    'contact.form.email.label': 'Email Address *',
+    'contact.form.email.placeholder': 'your@email.com',
+    'contact.form.subject.label': 'Subject *',
+    'contact.form.subject.placeholder': "What's this about?",
+    'contact.form.message.label': 'Message *',
+    'contact.form.message.placeholder': 'Tell me about your project or ask any questions...',
+    'contact.form.button.send': 'Send Message',
+    'contact.form.button.sending': 'Sending...',
+    'contact.toast.success.title': 'Message Sent!',
+    'contact.toast.success.description': "Thank you for your message. I'll get back to you soon!",
+    'contact.info.response.title': 'Quick Response',
+    'contact.info.response.desc': 'I typically respond within 2-4 hours during business hours',
+    'contact.info.title': 'Contact Information',
+    'contact.info.email.title': 'Email',
+    'contact.info.email.desc': 'Send me an email',
+    'contact.info.phone.title': 'Phone',
+    'contact.info.phone.desc': "Let's have a call",
+    'contact.info.location.title': 'Location',
+    'contact.info.location.desc': 'Based in Tunisia',
+    'contact.socials.title': 'Connect With Me',
+    'contact.availability.title': 'Available for Projects',
+    'contact.availability.desc': 'Currently accepting new projects and collaborations',
+    'contact.availability.button': 'Schedule a Call',
+    'contact.faq.title': 'Frequently Asked Questions',
+    'contact.faq.q1.title': 'How long does a typical project take?',
+    'contact.faq.q1.desc': 'Project timelines vary based on complexity. Simple landing pages take 2-4 days, while complex web applications can take 2-4 weeks.',
+    'contact.faq.q2.title': 'Do you provide ongoing support?',
+    'contact.faq.q2.desc': 'Yes! I offer post-launch support and maintenance services to ensure your website continues to perform optimally.',
+    'contact.faq.q3.title': "What's your payment process?",
+    'contact.faq.q3.desc': 'I typically work with 50% upfront and 50% upon completion. For larger projects, we can discuss milestone-based payments.',
+    'contact.faq.q4.title': 'Can you work with my existing team?',
+    'contact.faq.q4.desc': "Absolutely! I'm experienced in collaborating with designers, project managers, and other developers to deliver great results.",
   },
   
   fr: {
-    // Navigation
     'nav.home': 'Accueil',
     'nav.about': 'À Propos',
     'nav.services': 'Services',
     'nav.portfolio': 'Portfolio',
     'nav.contact': 'Contact',
     'nav.getQuote': 'Devis',
-    
-    // Hero Section
+    'common.loading': 'Chargement...',
+    'common.error': 'Erreur',
+    'common.success': 'Succès',
+    'common.required': 'Requis',
     'hero.title': 'Créer de Belles Expériences Web',
     'hero.subtitle': 'Développeur Full-Stack spécialisé en React, Node.js et technologies web modernes.\nDonner vie à vos idées avec du code propre et un design époustouflant.',
     'hero.exploreServices': 'Découvrir les Services',
     'hero.viewPortfolio': 'Voir le Portfolio',
-    
-    // Features
     'feature.cleanCode.title': 'Code Propre',
     'feature.cleanCode.desc': 'Écriture de code maintenable, évolutif et efficace',
     'feature.modernDesign.title': 'Design Moderne',
     'feature.modernDesign.desc': 'Création d\'interfaces utilisateur belles et responsives',
     'feature.fastDelivery.title': 'Livraison Rapide',
     'feature.fastDelivery.desc': 'Délai d\'exécution rapide sans compromettre la qualité',
-    
-    // Stats
     'stats.clients': 'Clients Satisfaits',
     'stats.projects': 'Projets Terminés',
     'stats.experience': 'Années d\'Expérience',
-    
-    // Services
     'services.title': 'Ce Que Je Peux Faire Pour Vous',
     'services.subtitle': 'Des pages d\'atterrissage simples aux applications full-stack complexes, je livre des solutions de qualité.',
     'services.landing.title': 'Pages d\'Atterrissage',
@@ -127,72 +270,197 @@ const translations = {
     'services.fullstack.desc': 'Applications web complètes avec backend, base de données et frontend moderne.',
     'services.startingAt': 'À partir de',
     'services.viewAll': 'Voir Tous les Services',
-    
-    // Testimonials
     'testimonials.title': 'Ce Que Disent les Clients',
     'testimonials.subtitle': 'Ne me croyez pas sur parole - voici ce que pensent mes clients.',
-    
-    // CTA
     'cta.title': 'Prêt à Commencer Votre Projet ?',
     'cta.subtitle': 'Discutons de vos idées et donnons-leur vie avec de belles solutions web fonctionnelles.',
     'cta.getStarted': 'Commencer Aujourd\'hui',
     'cta.browseServices': 'Parcourir les Services',
-    
-    // About Page
-    'about.title': 'À Propos de Walid',
-    'about.intro': 'Je suis un développeur full-stack passionné de Tunisie, spécialisé dans la création d\'applications web belles et fonctionnelles qui résolvent des problèmes du monde réel. Avec plus de 3 ans d\'expérience, j\'aide les entreprises et entrepreneurs à donner vie à leurs visions numériques.',
+    'about.pageTitle': 'À Propos de Walid',
+    'about.pageSubtitle': 'Je suis un développeur full-stack passionné de Tunisie, spécialisé dans la création d\'applications web belles et fonctionnelles qui résolvent des problèmes du monde réel. Avec plus de 3 ans d\'expérience, j\'aide les entreprises et entrepreneurs à donner vie à leurs visions numériques.',
     'about.story.title': 'Mon Histoire',
+    'about.story.p1': 'Mon parcours dans le développement web a commencé pendant mes études en informatique, où j\'ai découvert le mélange parfait de créativité et de logique qu\'offre la programmation. Ce qui a commencé comme une curiosité est rapidement devenu une passion.',
+    'about.story.p2': 'Au fil des ans, j\'ai travaillé avec des clients allant des petites startups aux entreprises établies, les aidant à établir leur présence en ligne et à optimiser leurs opérations grâce à des solutions web sur mesure.',
+    'about.story.p3': 'Je crois en l\'écriture de code propre et maintenable et en la création d\'expériences utilisateur qui non seulement sont esthétiques mais aussi exceptionnellement performantes. Chaque projet est une opportunité d\'apprendre quelque chose de nouveau et de livrer quelque chose d\'incroyable.',
+    'about.facts.title': 'Faits Rapides',
+    'about.facts.f1': 'Diplômé en Informatique',
+    'about.facts.f2': 'Basé en Tunisie',
+    'about.facts.f3': '+3 ans d\'expérience',
+    'about.facts.f4': 'Délais de livraison rapides',
+    'about.facts.f5': 'Parle couramment Arabe, Français & Anglais',
     'about.skills.title': 'Compétences Techniques',
+    'about.skills.frontend': 'Frontend',
+    'about.skills.backend': 'Backend',
+    'about.skills.mobile': 'Mobile',
+    'about.skills.tools': 'Outils',
     'about.achievements.title': 'Réalisations & Valeurs',
+    'about.achievements.a1.title': '+50 Clients Satisfaits',
+    'about.achievements.a1.desc': 'Projets réussis livrés dans divers secteurs',
+    'about.achievements.a2.title': 'Satisfaction Client de 100%',
+    'about.achievements.a2.desc': 'Note parfaite maintenue avec une livraison ponctuelle',
+    'about.achievements.a3.title': '+3 ans d\'expérience',
+    'about.achievements.a3.desc': 'Apprentissage continu et adaptation aux nouvelles technologies',
     'about.process.title': 'Mon Processus de Travail',
-    
-    // Contact
-    'contact.title': 'Entrer en Contact',
-    'contact.subtitle': 'Prêt à commencer votre projet ? Avez-vous une question ? J\'aimerais avoir de vos nouvelles. Discutons de la façon dont nous pouvons donner vie à vos idées.',
+    'about.process.step1.title': 'Découverte',
+    'about.process.step1.desc': 'Comprendre vos besoins et objectifs',
+    'about.process.step2.title': 'Conception',
+    'about.process.step2.desc': 'Création de wireframes et maquettes',
+    'about.process.step3.title': 'Développement',
+    'about.process.step3.desc': 'Construire avec du code propre et évolutif',
+    'about.process.step4.title': 'Livraison',
+    'about.process.step4.desc': 'Tests, optimisation et lancement',
+    'services.pageTitle': 'Mes Services',
+    'services.pageSubtitle': 'Services de développement web professionnels adaptés à vos besoins. Des simples pages de destination aux applications web complexes, je fournis des solutions de qualité avec des technologies modernes.',
+    'services.filter.placeholder': 'Filtrer par catégorie',
+    'services.sort.placeholder': 'Trier par',
+    'services.filter.all': 'Tous les services',
+    'services.filter.frontend': 'Frontend',
+    'services.filter.fullstack': 'Full-Stack',
+    'services.filter.design': 'Design UI/UX',
+    'services.sort.price': 'Prix',
+    'services.sort.delivery': 'Délai de livraison',
+    'services.sort.popular': 'Popularité',
+    'services.item.popular': 'Populaire',
+    'services.item.priceLabel': 'Prix',
+    'services.item.deliveryLabel': 'Livraison',
+    'services.item.includedTitle': 'Ce qui est inclus :',
+    'services.item.requestQuote': 'Demander un devis',
+    'services.item.askQuestion': 'Poser des questions',
+    'services.cta.title': 'Besoin de quelque chose de sur mesure ?',
+    'services.cta.subtitle': "Vous ne trouvez pas exactement ce que vous cherchez ? Je propose des services de développement personnalisés adaptés à vos besoins spécifiques. Discutons de votre projet !",
+    'services.cta.button': 'Discuter d\'un projet personnalisé',
+    'services.item.landingPage.title': 'Page de Destination',
+    'services.item.landingPage.desc': 'Une page de destination professionnelle axée sur la conversion, conçue pour présenter votre entreprise et capturer des prospects efficacement.',
+    'services.item.landingPage.delivery': '2-4 jours',
+    'services.item.landingPage.feature1': 'Design réactif',
+    'services.item.landingPage.feature2': 'Formulaires de contact',
+    'services.item.landingPage.feature3': 'Optimisé pour le SEO',
+    'services.item.landingPage.feature4': 'Chargement rapide',
+    'services.item.ecommerce.title': 'Site E-commerce',
+    'services.item.ecommerce.desc': 'Boutique en ligne complète avec catalogue de produits, panier, intégration de paiement et panneau d\'administration.',
+    'services.item.ecommerce.delivery': '1-3 semaines',
+    'services.item.ecommerce.feature1': 'Gestion des produits',
+    'services.item.ecommerce.feature2': 'Passerelle de paiement',
+    'services.item.ecommerce.feature3': 'Suivi des commandes',
+    'services.item.ecommerce.feature4': 'Tableau de bord admin',
+    'services.item.dashboard.title': 'Tableau de Bord Admin',
+    'services.item.dashboard.desc': 'Tableau de bord puissant avec analyses, gestion des utilisateurs, visualisation des données et informations commerciales.',
+    'services.item.dashboard.delivery': '1-2 semaines',
+    'services.item.dashboard.feature1': 'Gestion des utilisateurs',
+    'services.item.dashboard.feature2': 'Analyses',
+    'services.item.dashboard.feature3': 'Visualisation des données',
+    'services.item.dashboard.feature4': 'Fonctions d\'exportation',
+    'services.item.portfolio.title': 'Site Portfolio',
+    'services.item.portfolio.desc': 'Superbe site portfolio pour présenter votre travail, vos compétences et attirer des clients ou employeurs potentiels.',
+    'services.item.portfolio.delivery': '3-5 jours',
+    'services.item.portfolio.feature1': 'Galerie de portfolio',
+    'services.item.portfolio.feature2': 'Formulaires de contact',
+    'services.item.portfolio.feature3': 'Section blog',
+    'services.item.portfolio.feature4': 'Optimisé pour mobile',
+    'services.item.webapp.title': 'Application Web',
+    'services.item.webapp.desc': 'Application web personnalisée adaptée à vos besoins commerciaux spécifiques avec une intégration backend complète.',
+    'services.item.webapp.delivery': '2-4 semaines',
+    'services.item.webapp.feature1': 'Fonctionnalités sur mesure',
+    'services.item.webapp.feature2': 'Conception de base de données',
+    'services.item.webapp.feature3': 'Intégration d\'API',
+    'services.item.webapp.feature4': 'Authentification utilisateur',
+    'services.item.uiux.title': 'Design UI/UX',
+    'services.item.uiux.desc': 'Services de design UI/UX professionnels, y compris wireframes, prototypes et systèmes de design.',
+    'services.item.uiux.delivery': '1-2 semaines',
+    'services.item.uiux.feature1': 'Wireframes',
+    'services.item.uiux.feature2': 'Prototypes',
+    'services.item.uiux.feature3': 'Système de design',
+    'services.item.uiux.feature4': 'Recherche utilisateur',
+    'portfolio.title.part1': 'Mon',
+    'portfolio.title.part2': 'Portfolio',
+    'portfolio.pageSubtitle': "Une vitrine de mes projets réels, chacun représentant un défi unique et démontrant mon engagement à fournir des solutions fonctionnelles et de haute qualité.",
+    'portfolio.filter.all': "Tous les Projets",
+    'portfolio.featured.title': "Projets en Vedette",
+    'portfolio.all.title': "Tous les Projets",
+    'portfolio.liveDemo': "Démo Live",
+    'portfolio.code': "Code",
+    'portfolio.featured': "En Vedette",
+    'portfolio.cta.title': "Impressionné par ce que vous voyez ?",
+    'portfolio.cta.subtitle': "Prêt à démarrer votre propre projet ? Discutons de vos idées et créons quelque chose d'incroyable ensemble.",
+    'portfolio.cta.start': "Démarrer Votre Projet",
+    'portfolio.cta.github': "Voir sur GitHub",
+    'project.digitalGuide.title': 'Guide Numérique – Ministère de l\'Industrie, des Mines et de l\'Énergie',
+    'project.digitalGuide.desc': 'Guide numérique interactif permettant aux administrateurs de gérer textes, images, tableaux, liens et contenu HTML dynamique via des interfaces de type CRM.',
+    'project.curvesSmiles.title': 'Plateforme Curves and Smiles',
+    'project.curvesSmiles.desc': 'Développement frontend d\'une solution de dentisterie assistée par IA avec des modèles 3D via Three.js et une intégration HTMX.',
+    'project.truckManagement.title': 'Application de Gestion de Camions',
+    'project.truckManagement.desc': 'Application de gestion de flotte pour le suivi de la maintenance des camions et de l\'inventaire avec une interface de suivi intuitive.',
+    'project.collabSmile.title': 'Application Mobile CollabSmile',
+    'project.collabSmile.desc': 'Application React Native (Expo) connectant dentistes et prothésistes avec gestion des patients, messagerie et partage de modèles 3D.',
+    'project.goZone.title': 'Plateforme de Blogging GoZone',
+    'project.goZone.desc': 'Plateforme basée sur Django permettant aux créateurs de contenu de publier et gérer des blogs avec un éditeur intégré.',
+    'project.koora.title': 'Koora Analytics',
+    'project.koora.desc': 'Application web fournissant des analyses détaillées de matchs, équipes et joueurs de football avec des tableaux de bord clairs.',
+    'contact.title.part1': 'Prenez',
+    'contact.title.part2': 'Contact',
+    'contact.subtitle': "Prêt à démarrer votre projet ? Vous avez une question ? J'aimerais avoir de vos nouvelles. Discutons de la manière dont nous pouvons donner vie à vos idées.",
     'contact.form.title': 'Envoyez-moi un message',
     'contact.form.subtitle': 'Je vous répondrai dans les 24 heures.',
-    'contact.form.name': 'Nom Complet',
-    'contact.form.email': 'Adresse Email',
-    'contact.form.subject': 'Sujet',
-    'contact.form.message': 'Message',
-    'contact.form.send': 'Envoyer le Message',
-    
-    // Common
-    'common.loading': 'Chargement...',
-    'common.error': 'Erreur',
-    'common.success': 'Succès',
-    'common.required': 'Requis',
+    'contact.form.name.label': 'Nom Complet *',
+    'contact.form.name.placeholder': 'Votre nom complet',
+    'contact.form.email.label': 'Adresse Email *',
+    'contact.form.email.placeholder': 'votre@email.com',
+    'contact.form.subject.label': 'Sujet *',
+    'contact.form.subject.placeholder': "De quoi s'agit-il ?",
+    'contact.form.message.label': 'Message *',
+    'contact.form.message.placeholder': 'Parlez-moi de votre projet ou posez des questions...',
+    'contact.form.button.send': 'Envoyer le Message',
+    'contact.form.button.sending': 'Envoi en cours...',
+    'contact.toast.success.title': 'Message Envoyé !',
+    'contact.toast.success.description': "Merci pour votre message. Je vous répondrai bientôt !",
+    'contact.info.response.title': 'Réponse Rapide',
+    'contact.info.response.desc': 'Je réponds généralement en 2-4 heures pendant les heures de bureau',
+    'contact.info.title': 'Informations de Contact',
+    'contact.info.email.title': 'Email',
+    'contact.info.email.desc': 'Envoyez-moi un email',
+    'contact.info.phone.title': 'Téléphone',
+    'contact.info.phone.desc': "Appelons-nous",
+    'contact.info.location.title': 'Localisation',
+    'contact.info.location.desc': 'Basé en Tunisie',
+    'contact.socials.title': 'Suivez-moi',
+    'contact.availability.title': 'Disponible pour Projets',
+    'contact.availability.desc': 'Accepte actuellement de nouveaux projets et collaborations',
+    'contact.availability.button': 'Planifier un Appel',
+    'contact.faq.title': 'Questions Fréquemment Posées',
+    'contact.faq.q1.title': 'Combien de temps dure un projet typique ?',
+    'contact.faq.q1.desc': 'La durée des projets varie selon la complexité. Les pages de destination simples prennent 2-4 jours, tandis que les applications web complexes peuvent prendre 2-4 semaines.',
+    'contact.faq.q2.title': 'Fournissez-vous un support continu ?',
+    'contact.faq.q2.desc': 'Oui ! Je propose des services de support et de maintenance post-lancement pour garantir que votre site web continue de fonctionner de manière optimale.',
+    'contact.faq.q3.title': 'Quel est votre processus de paiement ?',
+    'contact.faq.q3.desc': 'Je travaille généralement avec 50% d\'acompte et 50% à la fin. Pour les grands projets, nous pouvons discuter de paiements par étapes.',
+    'contact.faq.q4.title': 'Pouvez-vous travailler avec mon équipe existante ?',
+    'contact.faq.q4.desc': 'Absolument ! J\'ai l\'expérience de la collaboration avec des designers, des chefs de projet et d\'autres développeurs pour obtenir d\'excellents résultats.',
   },
   
   ar: {
-    // Navigation
     'nav.home': 'الرئيسية',
     'nav.about': 'حول',
     'nav.services': 'الخدمات',
     'nav.portfolio': 'الأعمال',
     'nav.contact': 'اتصال',
     'nav.getQuote': 'عرض سعر',
-    
-    // Hero Section
+    'common.loading': 'جاري التحميل...',
+    'common.error': 'خطأ',
+    'common.success': 'نجح',
+    'common.required': 'مطلوب',
     'hero.title': 'صناعة تجارب ويب جميلة',
     'hero.subtitle': 'مطور Full-Stack متخصص في React و Node.js وتقنيات الويب الحديثة.\nإحياء أفكارك بكود نظيف وتصميم مذهل.',
     'hero.exploreServices': 'استكشف الخدمات',
     'hero.viewPortfolio': 'عرض الأعمال',
-    
-    // Features
     'feature.cleanCode.title': 'كود نظيف',
     'feature.cleanCode.desc': 'كتابة كود قابل للصيانة وقابل للتطوير وفعال',
     'feature.modernDesign.title': 'تصميم عصري',
     'feature.modernDesign.desc': 'إنشاء واجهات مستخدم جميلة ومتجاوبة',
     'feature.fastDelivery.title': 'تسليم سريع',
     'feature.fastDelivery.desc': 'وقت استجابة سريع دون التنازل عن الجودة',
-    
-    // Stats
     'stats.clients': 'عملاء راضون',
     'stats.projects': 'مشاريع مكتملة',
     'stats.experience': 'سنوات خبرة',
-    
-    // Services
     'services.title': 'ما يمكنني فعله لك',
     'services.subtitle': 'من صفحات الهبوط البسيطة إلى تطبيقات Full-Stack المعقدة، أقدم حلولاً عالية الجودة.',
     'services.landing.title': 'صفحات الهبوط',
@@ -203,59 +471,200 @@ const translations = {
     'services.fullstack.desc': 'تطبيقات ويب كاملة مع backend وقاعدة بيانات وfrontend حديث.',
     'services.startingAt': 'بداية من',
     'services.viewAll': 'عرض جميع الخدمات',
-    
-    // Testimonials
     'testimonials.title': 'ما يقوله العملاء',
     'testimonials.subtitle': 'لا تأخذ كلامي فقط - هذا ما يعتقده عملائي.',
-    
-    // CTA
     'cta.title': 'جاهز لبدء مشروعك؟',
     'cta.subtitle': 'دعنا نناقش أفكارك ونحييها بحلول ويب جميلة وعملية.',
     'cta.getStarted': 'ابدأ اليوم',
     'cta.browseServices': 'تصفح الخدمات',
-    
-    // About Page
-    'about.title': 'حول وليد',
-    'about.intro': 'أنا مطور full-stack شغوف من تونس، متخصص في إنشاء تطبيقات ويب جميلة ووظيفية تحل مشاكل العالم الحقيقي. مع أكثر من 3 سنوات من الخبرة، أساعد الشركات ورجال الأعمال على إحياء رؤاهم الرقمية.',
+    'about.pageTitle': 'حول وليد',
+    'about.pageSubtitle': 'أنا مطور full-stack شغوف من تونس، متخصص في إنشاء تطبيقات ويب جميلة ووظيفية تحل مشاكل العالم الحقيقي. مع أكثر من 3 سنوات من الخبرة، أساعد الشركات ورجال الأعمال على إحياء رؤاهم الرقمية.',
     'about.story.title': 'قصتي',
+    'about.story.p1': 'بدأت رحلتي في تطوير الويب خلال دراستي لعلوم الكمبيوتر، حيث اكتشفت المزيج المثالي بين الإبداع والمنطق الذي توفره البرمجة. ما بدأ كفضول سرعان ما أصبح شغفًا.',
+    'about.story.p2': 'على مر السنين، عملت مع عملاء يتراوحون من الشركات الناشئة الصغيرة إلى الشركات القائمة، وساعدتهم على تأسيس وجودهم عبر الإنترنت وتبسيط عملياتهم من خلال حلول الويب المخصصة.',
+    'about.story.p3': 'أؤمن بكتابة كود نظيف وقابل للصيانة وإنشاء تجارب مستخدم لا تبدو رائعة فحسب، بل تعمل أيضًا بشكل استثنائي. كل مشروع هو فرصة لتعلم شيء جديد وتقديم شيء مذهل.',
+    'about.facts.title': 'حقائق سريعة',
+    'about.facts.f1': 'خريج علوم كمبيوتر',
+    'about.facts.f2': 'مقيم في تونس',
+    'about.facts.f3': '+3 سنوات من الخبرة',
+    'about.facts.f4': 'وقت تسليم سريع',
+    'about.facts.f5': 'يتقن العربية والفرنسية والإنجليزية',
     'about.skills.title': 'المهارات التقنية',
+    'about.skills.frontend': 'الواجهة الأمامية',
+    'about.skills.backend': 'الواجهة الخلفية',
+    'about.skills.mobile': 'الجوال',
+    'about.skills.tools': 'الأدوات',
     'about.achievements.title': 'الإنجازات والقيم',
-    'about.process.title': 'عملية العمل',
-    
-    // Contact
-    'contact.title': 'تواصل معي',
-    'contact.subtitle': 'جاهز لبدء مشروعك؟ لديك سؤال؟ أحب أن أسمع منك. دعنا نناقش كيف يمكننا إحياء أفكارك.',
+    'about.achievements.a1.title': '+50 عميلًا سعيدًا',
+    'about.achievements.a1.desc': 'تم تسليم مشاريع ناجحة في مختلف الصناعات',
+    'about.achievements.a2.title': 'رضا العملاء بنسبة 100٪',
+    'about.achievements.a2.desc': 'الحفاظ على تقييم مثالي مع التسليم في الوقت المحدد',
+    'about.achievements.a3.title': '+3 سنوات خبرة',
+    'about.achievements.a3.desc': 'التعلم المستمر والتكيف مع التقنيات الجديدة',
+    'about.process.title': 'عملية عملي',
+    'about.process.step1.title': 'الاكتشاف',
+    'about.process.step1.desc': 'فهم احتياجاتك وأهدافك',
+    'about.process.step2.title': 'التصميم',
+    'about.process.step2.desc': 'إنشاء الإطارات السلكية والنماذج الأولية',
+    'about.process.step3.title': 'التطوير',
+    'about.process.step3.desc': 'البناء بكود نظيف وقابل للتطوير',
+    'about.process.step4.title': 'التسليم',
+    'about.process.step4.desc': 'الاختبار والتحسين والإطلاق',
+    'services.pageTitle': 'خدماتي',
+    'services.pageSubtitle': 'خدمات تطوير ويب احترافية مصممة خصيصًا لتلبية احتياجاتك. من صفحات الهبوط البسيطة إلى تطبيقات الويب المعقدة، أقدم حلولاً عالية الجودة بتقنيات حديثة.',
+    'services.filter.placeholder': 'تصفية حسب الفئة',
+    'services.sort.placeholder': 'فرز حسب',
+    'services.filter.all': 'كل الخدمات',
+    'services.filter.frontend': 'واجهة أمامية',
+    'services.filter.fullstack': 'Full-Stack',
+    'services.filter.design': 'تصميم UI/UX',
+    'services.sort.price': 'السعر',
+    'services.sort.delivery': 'مدة التسليم',
+    'services.sort.popular': 'الشهرة',
+    'services.item.popular': 'شائع',
+    'services.item.priceLabel': 'السعر',
+    'services.item.deliveryLabel': 'التسليم',
+    'services.item.includedTitle': 'ماذا تشمل الخدمة:',
+    'services.item.requestQuote': 'اطلب عرض سعر',
+    'services.item.askQuestion': 'اطرح سؤالاً',
+    'services.cta.title': 'هل تحتاج خدمة مخصصة؟',
+    'services.cta.subtitle': 'ألا تجد ما تبحث عنه بالضبط؟ أقدم خدمات تطوير مخصصة لتلبية متطلباتك المحددة. دعنا نناقش مشروعك!',
+    'services.cta.button': 'ناقش مشروعًا مخصصًا',
+    'services.item.landingPage.title': 'صفحة هبوط للأعمال',
+    'services.item.landingPage.desc': 'صفحة هبوط احترافية تركز على التحويل، مصممة لعرض عملك وجذب العملاء المحتملين بفعالية.',
+    'services.item.landingPage.delivery': '2-4 أيام',
+    'services.item.landingPage.feature1': 'تصميم متجاوب',
+    'services.item.landingPage.feature2': 'نماذج اتصال',
+    'services.item.landingPage.feature3': 'محسّن لمحركات البحث',
+    'services.item.landingPage.feature4': 'تحميل سريع',
+    'services.item.ecommerce.title': 'موقع تجارة إلكترونية',
+    'services.item.ecommerce.desc': 'متجر إلكتروني كامل مع كتالوج منتجات، عربة تسوق، تكامل الدفع، ولوحة تحكم إدارية.',
+    'services.item.ecommerce.delivery': '1-3 أسابيع',
+    'services.item.ecommerce.feature1': 'إدارة المنتجات',
+    'services.item.ecommerce.feature2': 'بوابة الدفع',
+    'services.item.ecommerce.feature3': 'تتبع الطلبات',
+    'services.item.ecommerce.feature4': 'لوحة تحكم للمدير',
+    'services.item.dashboard.title': 'لوحة تحكم إدارية',
+    'services.item.dashboard.desc': 'لوحة تحكم قوية مع تحليلات، إدارة المستخدمين، عرض مرئي للبيانات، ورؤى تجارية.',
+    'services.item.dashboard.delivery': '1-2 أسابيع',
+    'services.item.dashboard.feature1': 'إدارة المستخدمين',
+    'services.item.dashboard.feature2': 'تحليلات',
+    'services.item.dashboard.feature3': 'عرض مرئي للبيانات',
+    'services.item.dashboard.feature4': 'ميزات التصدير',
+    'services.item.portfolio.title': 'موقع أعمال (Portfolio)',
+    'services.item.portfolio.desc': 'موقع أعمال مذهل لعرض أعمالك ومهاراتك وجذب العملاء أو أصحاب العمل المحتملين.',
+    'services.item.portfolio.delivery': '3-5 أيام',
+    'services.item.portfolio.feature1': 'معرض الأعمال',
+    'services.item.portfolio.feature2': 'نماذج اتصال',
+    'services.item.portfolio.feature3': 'قسم المدونة',
+    'services.item.portfolio.feature4': 'محسّن للجوال',
+    'services.item.webapp.title': 'تطبيق ويب',
+    'services.item.webapp.desc': 'تطبيق ويب مخصص مصمم لاحتياجات عملك المحددة مع تكامل خلفي كامل.',
+    'services.item.webapp.delivery': '2-4 أسابيع',
+    'services.item.webapp.feature1': 'ميزات مخصصة',
+    'services.item.webapp.feature2': 'تصميم قاعدة البيانات',
+    'services.item.webapp.feature3': 'تكامل API',
+    'services.item.webapp.feature4': 'توثيق المستخدم',
+    'services.item.uiux.title': 'تصميم UI/UX',
+    'services.item.uiux.desc': 'خدمات تصميم UI/UX احترافية تشمل الإطارات السلكية والنماذج الأولية وأنظمة التصميم.',
+    'services.item.uiux.delivery': '1-2 أسابيع',
+    'services.item.uiux.feature1': 'إطارات سلكية',
+    'services.item.uiux.feature2': 'نماذج أولية',
+    'services.item.uiux.feature3': 'نظام تصميم',
+    'services.item.uiux.feature4': 'بحث المستخدم',
+    'portfolio.title.part1': 'ملف',
+    'portfolio.title.part2': 'أعمالي',
+    'portfolio.pageSubtitle': 'عرض لمشاريعي الواقعية، حيث يمثل كل مشروع تحديًا فريدًا ويُظهر التزامي بتقديم حلول عالية الجودة وعملية.',
+    'portfolio.filter.all': "كل المشاريع",
+    'portfolio.filter.frontend': "واجهة أمامية",
+    'portfolio.filter.fullstack': "Full-Stack",
+    'portfolio.featured.title': "مشاريع مميزة",
+    'portfolio.all.title': "كل المشاريع",
+    'portfolio.liveDemo': "عرض مباشر",
+    'portfolio.code': "الكود",
+    'portfolio.featured': "مميز",
+    'portfolio.cta.title': "هل أعجبك ما رأيت؟",
+    'portfolio.cta.subtitle': "هل أنت مستعد لبدء مشروعك الخاص؟ دعنا نناقش أفكارك وننشئ شيئًا رائعًا معًا.",
+    'portfolio.cta.start': "ابدأ مشروعك",
+    'portfolio.cta.github': "عرض على GitHub",
+    'project.digitalGuide.title': 'الدليل الرقمي – وزارة الصناعة والمناجم والطاقة',
+    'project.digitalGuide.desc': 'دليل رقمي تفاعلي يمكّن المسؤولين من إدارة النصوص والصور والجداول والروابط ومحتوى HTML الديناميكي عبر واجهات بأسلوب CRM للمستخدم والمسؤول.',
+    'project.curvesSmiles.title': 'منصة Curves and Smiles',
+    'project.curvesSmiles.desc': 'تطوير الواجهة الأمامية لحل طب أسنان مدعوم بالذكاء الاصطناعي مع نماذج أسنان ثلاثية الأبعاد عبر Three.js وتكامل HTMX.',
+    'project.truckManagement.title': 'تطبيق إدارة الشاحنات',
+    'project.truckManagement.desc': 'تطبيق لإدارة الأسطول لمراقبة صيانة الشاحنات والمخزون مع واجهة تتبع سهلة الاستخدام.',
+    'project.collabSmile.title': 'تطبيق CollabSmile للجوال',
+    'project.collabSmile.desc': 'تطبيق React Native (Expo) يربط أطباء الأسنان وأخصائيي تركيب الأسنان مع إدارة المرضى والرسائل ومشاركة النماذج ثلاثية الأبعاد.',
+    'project.goZone.title': 'منصة التدوين GoZone',
+    'project.goZone.desc': 'منصة قائمة على Django تسمح لمنشئي المحتوى بنشر وإدارة المدونات باستخدام محرر مدمج.',
+    'project.koora.title': 'تحليلات كورة',
+    'project.koora.desc': 'تطبيق ويب يوفر تحليلات مفصلة لمباريات كرة القدم والفرق واللاعبين مع لوحات معلومات أداء واضحة.',
+    'contact.title.part1': 'تواصل',
+    'contact.title.part2': 'معي',
+    'contact.subtitle': 'هل أنت مستعد لبدء مشروعك؟ لديك سؤال؟ أحب أن أسمع منك. دعنا نناقش كيف يمكننا إحياء أفكارك.',
     'contact.form.title': 'أرسل لي رسالة',
     'contact.form.subtitle': 'سأعود إليك خلال 24 ساعة.',
-    'contact.form.name': 'الاسم الكامل',
-    'contact.form.email': 'عنوان البريد الإلكتروني',
-    'contact.form.subject': 'الموضوع',
-    'contact.form.message': 'الرسالة',
-    'contact.form.send': 'إرسال الرسالة',
-    
-    // Common
-    'common.loading': 'جاري التحميل...',
-    'common.error': 'خطأ',
-    'common.success': 'نجح',
-    'common.required': 'مطلوب',
+    'contact.form.name.label': 'الاسم الكامل *',
+    'contact.form.name.placeholder': 'اسمك الكامل',
+    'contact.form.email.label': 'البريد الإلكتروني *',
+    'contact.form.email.placeholder': 'your@email.com',
+    'contact.form.subject.label': 'الموضوع *',
+    'contact.form.subject.placeholder': 'عن ماذا يدور هذا؟',
+    'contact.form.message.label': 'الرسالة *',
+    'contact.form.message.placeholder': 'أخبرني عن مشروعك أو اطرح أي أسئلة...',
+    'contact.form.button.send': 'إرسال الرسالة',
+    'contact.form.button.sending': 'جار الإرسال...',
+    'contact.toast.success.title': 'تم إرسال الرسالة!',
+    'contact.toast.success.description': 'شكرًا لك على رسالتك. سأعود إليك قريبًا!',
+    'contact.info.response.title': 'استجابة سريعة',
+    'contact.info.response.desc': 'أرد عادة في غضون 2-4 ساعات خلال ساعات العمل',
+    'contact.info.title': 'معلومات الاتصال',
+    'contact.info.email.title': 'البريد الإلكتروني',
+    'contact.info.email.desc': 'أرسل لي بريدًا إلكترونيًا',
+    'contact.info.phone.title': 'الهاتف',
+    'contact.info.phone.desc': 'لنتحدث عبر الهاتف',
+    'contact.info.location.title': 'الموقع',
+    'contact.info.location.desc': 'مقيم في تونس',
+    'contact.socials.title': 'تواصل معي عبر',
+    'contact.availability.title': 'متاح للمشاريع',
+    'contact.availability.desc': 'أقبل حاليًا المشاريع والتعاونات الجديدة',
+    'contact.availability.button': 'حدد موعدًا لمكالمة',
+    'contact.faq.title': 'الأسئلة الشائعة',
+    'contact.faq.q1.title': 'كم من الوقت يستغرق المشروع النموذجي؟',
+    'contact.faq.q1.desc': 'تختلف مدة المشاريع حسب التعقيد. تستغرق صفحات الهبوط البسيطة من 2-4 أيام، بينما يمكن أن تستغرق تطبيقات الويب المعقدة من 2-4 أسابيع.',
+    'contact.faq.q2.title': 'هل تقدمون الدعم المستمر؟',
+    'contact.faq.q2.desc': 'نعم! أقدم خدمات الدعم والصيانة بعد الإطلاق لضمان استمرار موقع الويب الخاص بك في الأداء الأمثل.',
+    'contact.faq.q3.title': 'ما هي عملية الدفع الخاصة بك؟',
+    'contact.faq.q3.desc': 'أعمل عادةً بنسبة 50٪ مقدمًا و 50٪ عند الانتهاء. بالنسبة للمشاريع الكبيرة، يمكننا مناقشة الدفعات على مراحل.',
+    'contact.faq.q4.title': 'هل يمكنك العمل مع فريقي الحالي؟',
+    'contact.faq.q4.desc': 'بالتأكيد! لدي خبرة في التعاون مع المصممين ومديري المشاريع والمطورين الآخرين لتحقيق نتائج رائعة.',
   },
 };
 
 export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [language, setLanguage] = useState<Language>(() => {
-    const savedLang = localStorage.getItem('language') as Language;
-    return savedLang || 'en';
+    if (typeof window !== 'undefined') {
+      const savedLang = localStorage.getItem('language') as Language;
+      return savedLang || 'en';
+    }
+    return 'en';
   });
 
+  useEffect(() => {
+    const savedLang = localStorage.getItem('language') as Language;
+    const initialLang = savedLang || 'en';
+    setLanguage(initialLang);
+    document.documentElement.dir = initialLang === 'ar' ? 'rtl' : 'ltr';
+    document.documentElement.lang = initialLang;
+  }, []);
+
   const t = (key: string): string => {
-    return translations[language][key as keyof typeof translations[typeof language]] || key;
+    return translations[language]?.[key as keyof typeof translations[typeof language]] || key;
   };
 
   const handleSetLanguage = (lang: Language) => {
     setLanguage(lang);
     localStorage.setItem('language', lang);
-    
-    // Update document direction for RTL languages
     document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
     document.documentElement.lang = lang;
   };
@@ -263,12 +672,7 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   const isRTL = language === 'ar';
 
   return (
-    <LanguageContext.Provider value={{ 
-      language, 
-      setLanguage: handleSetLanguage, 
-      t, 
-      isRTL 
-    }}>
+    <LanguageContext.Provider value={{ language, setLanguage: handleSetLanguage, t, isRTL }}>
       {children}
     </LanguageContext.Provider>
   );
@@ -277,7 +681,7 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
 export const useLanguage = () => {
   const context = useContext(LanguageContext);
   if (context === undefined) {
-    throw new Error('useLanguage must be used within a LanguageProvider');
+    throw new Error('useLanguage must be used within a ThemeProvider');
   }
   return context;
 };
