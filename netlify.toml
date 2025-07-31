@@ -1,0 +1,15 @@
+# netlify.toml
+
+[build]
+  # This is the command Netlify will run to build your site.
+  # Make sure it matches the "build" script in your package.json.
+  command = "npm run build"
+
+  # This is the directory that contains the built, deployable files.
+  # For Vite projects, this is "dist".
+  # For Create React App, it would be "build".
+  publish = "dist"
+
+[functions]
+  # (Optional) If you have Netlify serverless functions, specify their directory.
+  # directory = "netlify/functions"
