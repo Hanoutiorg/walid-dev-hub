@@ -43,22 +43,22 @@ const translations = {
     'stats.clients': 'Happy Clients',
     'stats.projects': 'Projects Completed',
     'stats.experience': 'Years Experience',
-    'services.title': 'What I Can Do For You', // For Home Page
-    'services.subtitle': 'From simple landing pages to complex full-stack applications, I deliver quality solutions.', // For Home Page
-    'services.landing.title': 'Landing Pages', // For Home Page
-    'services.landing.desc': 'Beautiful, conversion-focused landing pages that capture leads and drive sales.', // For Home Page
-    'services.dashboard.title': 'Admin Dashboards', // For Home Page
-    'services.dashboard.desc': 'Powerful dashboards with analytics, user management, and business insights.', // For Home Page
-    'services.fullstack.title': 'Full-Stack Apps', // For Home Page
-    'services.fullstack.desc': 'Complete web applications with backend, database, and modern frontend.', // For Home Page
-    'services.startingAt': 'Starting at', // For Home Page
-    'services.viewAll': 'View All Services', // For Home Page
+    'services.title': 'What I Can Do For You',
+    'services.subtitle': 'From simple landing pages to complex full-stack applications, I deliver quality solutions.',
+    'services.landing.title': 'Landing Pages',
+    'services.landing.desc': 'Beautiful, conversion-focused landing pages that capture leads and drive sales.',
+    'services.dashboard.title': 'Admin Dashboards',
+    'services.dashboard.desc': 'Powerful dashboards with analytics, user management, and business insights.',
+    'services.fullstack.title': 'Full-Stack Apps',
+    'services.fullstack.desc': 'Complete web applications with backend, database, and modern frontend.',
+    'services.startingAt': 'Starting at',
+    'services.viewAll': 'View All Services',
     'testimonials.title': 'What Clients Say',
     'testimonials.subtitle': "Don't just take my word for it - here's what my clients think.",
-    'cta.title': 'Ready to Start Your Project?', // For Home Page
-    'cta.subtitle': "Let's discuss your ideas and bring them to life with beautiful, functional web solutions.", // For Home Page
-    'cta.getStarted': 'Get Started Today', // For Home Page
-    'cta.browseServices': 'Browse Services', // For Home Page
+    'cta.title': 'Ready to Start Your Project?',
+    'cta.subtitle': "Let's discuss your ideas and bring them to life with beautiful, functional web solutions.",
+    'cta.getStarted': 'Get Started Today',
+    'cta.browseServices': 'Browse Services',
 
     // =================================================================
     // 3. ABOUT PAGE
@@ -170,6 +170,8 @@ const translations = {
     'portfolio.title.part2': 'Portfolio',
     'portfolio.pageSubtitle': 'A showcase of my real-world projects, each representing a unique challenge and demonstrating my commitment to high-quality, functional solutions.',
     'portfolio.filter.all': "All Projects",
+    'portfolio.filter.frontend': 'Frontend',
+    'portfolio.filter.fullstack': 'Full-Stack',
     'portfolio.featured.title': "Featured Projects",
     'portfolio.all.title': "All Projects",
     'portfolio.liveDemo': "Live Demo",
@@ -179,18 +181,40 @@ const translations = {
     'portfolio.cta.subtitle': "Ready to start your own project? Let’s discuss your ideas and create something amazing together.",
     'portfolio.cta.start': "Start Your Project",
     'portfolio.cta.github': "View on GitHub",
+    
     'project.digitalGuide.title': 'Digital Guide – Ministry of Industry, Mines and Energy',
     'project.digitalGuide.desc': 'Interactive digital guide enabling admins to manage text, images, tables, links, and dynamic HTML content via user/admin CRM-style interfaces.',
+    'project.digitalGuide.longDesc': "Developed for the Tunisian Ministry of Energy, this portal acts as a central hub for investors, streamlining access to critical information on regulations, opportunities, and procedures. The frontend is built with React and Tailwind CSS for a modern user experience, while the Node.js and MongoDB backend provides robust, dynamic content management.",
+    'project.digitalGuide.role': "Contributor & Full-Stack Developer",
+    'project.digitalGuide.contribution': "As a key developer on this project, I contributed in collaboration with Altaqa Strategy. My responsibilities included architecting and building several core features of the CRM-style admin panel, developing the dynamic content rendering engine, and ensuring the application's overall performance and scalability.",
+    
     'project.curvesSmiles.title': 'Curves and Smiles Platform',
     'project.curvesSmiles.desc': 'Frontend development of an AI-powered dentistry solution with 3D dental models via Three.js and HTMX integration.',
+    'project.curvesSmiles.longDesc': "This project aimed to create a friendly and unintimidating digital presence for an orthodontic clinic. Using Django with HTMX allowed for fast, server-rendered interactivity without a heavy client-side framework. The highlight is a custom Three.js integration that visualizes dental treatments in 3D, making complex procedures more understandable for patients.",
+    
     'project.truckManagement.title': 'Truck Management App',
     'project.truckManagement.desc': 'Fleet management application for monitoring truck maintenance and inventory with intuitive tracking UI.',
+    'project.truckManagement.longDesc': "A complete MERN stack application designed to optimize logistics for a transport company. Key features include real-time vehicle tracking on a live map, efficient driver assignment, route optimization, and detailed reporting. Socket.IO was used to push live location updates to the dashboard for seamless monitoring.",
+    
     'project.collabSmile.title': 'CollabSmile Mobile App',
     'project.collabSmile.desc': 'React Native app (Expo) connecting dentists and prosthetists with patient management, messaging, and 3D model sharing.',
+    'project.collabSmile.longDesc': "Built with React Native and Expo, this mobile app enables secure collaboration among dental professionals. Dentists can upload patient images, share notes, and discuss treatment plans within a secure, authenticated environment. The backend is powered by a Django REST Framework API that handles all data and user management.",
+    
     'project.goZone.title': 'GoZone Blogging Platform',
     'project.goZone.desc': 'Django-based platform allowing content creators to publish and manage blogs with a built-in editor.',
+    'project.goZone.longDesc': "GoZone is a classic server-rendered web application built with the Django framework and a PostgreSQL database. It serves as a community portal for discovering and promoting local events. The project emphasizes clean backend architecture, secure user authentication, and a lightweight frontend using vanilla JavaScript and CSS.",
+    
     'project.koora.title': 'Koora Analytics',
     'project.koora.desc': 'Web app providing detailed football match, team, and player analytics with clear performance dashboards.',
+    'project.koora.longDesc': "This data-focused platform ingests, processes, and visualizes soccer match statistics. The backend, built with Django and Django REST Framework, exposes a powerful API for querying player and team performance data. The frontend consumes this API to display interactive charts and tables, offering deep insights for soccer analysts and enthusiasts.",
+    
+    'viewDetails': "View Details",
+
+    'projectDetail.back': "Back to Portfolio",
+    'projectDetail.about': "About The Project",
+    'projectDetail.techStack': "Technology Stack",
+    'projectDetail.links': "Project Links",
+    'projectDetail.gallery': "Gallery",
 
     // =================================================================
     // 6. CONTACT PAGE
@@ -375,6 +399,8 @@ const translations = {
     'portfolio.title.part2': 'Portfolio',
     'portfolio.pageSubtitle': "Une vitrine de mes projets réels, chacun représentant un défi unique et démontrant mon engagement à fournir des solutions fonctionnelles et de haute qualité.",
     'portfolio.filter.all': "Tous les Projets",
+    'portfolio.filter.frontend': 'Frontend',
+    'portfolio.filter.fullstack': 'Full-Stack',
     'portfolio.featured.title': "Projets en Vedette",
     'portfolio.all.title': "Tous les Projets",
     'portfolio.liveDemo': "Démo Live",
@@ -386,16 +412,30 @@ const translations = {
     'portfolio.cta.github': "Voir sur GitHub",
     'project.digitalGuide.title': 'Guide Numérique – Ministère de l\'Industrie, des Mines et de l\'Énergie',
     'project.digitalGuide.desc': 'Guide numérique interactif permettant aux administrateurs de gérer textes, images, tableaux, liens et contenu HTML dynamique via des interfaces de type CRM.',
+    'project.digitalGuide.longDesc': "Développé pour le Ministère tunisien de l'Énergie, ce portail sert de hub central pour les investisseurs, simplifiant l'accès aux informations critiques sur les réglementations, opportunités et procédures. Le frontend est construit avec React et Tailwind CSS pour une expérience utilisateur moderne, tandis que le backend Node.js et MongoDB fournit une gestion de contenu dynamique et robuste.",
+    'project.digitalGuide.role': "Contributeur & Développeur Full-Stack",
+    'project.digitalGuide.contribution': "En tant que développeur clé sur ce projet, j'ai contribué en collaboration avec Altaqa Strategy. Mes responsabilités comprenaient l'architecture et la création de plusieurs fonctionnalités essentielles du panneau d'administration de style CRM, le développement du moteur de rendu de contenu dynamique, et la garantie des performances et de l'évolutivité globales de l'application.",
     'project.curvesSmiles.title': 'Plateforme Curves and Smiles',
     'project.curvesSmiles.desc': 'Développement frontend d\'une solution de dentisterie assistée par IA avec des modèles 3D via Three.js et une intégration HTMX.',
+    'project.curvesSmiles.longDesc': "Ce projet visait à créer une présence numérique conviviale et rassurante pour une clinique d'orthodontie. L'utilisation de Django avec HTMX a permis une interactivité rapide rendue côté serveur sans un framework client lourd. Le point fort est une intégration personnalisée de Three.js qui visualise les traitements dentaires en 3D, rendant les procédures complexes plus compréhensibles pour les patients.",
     'project.truckManagement.title': 'Application de Gestion de Camions',
     'project.truckManagement.desc': 'Application de gestion de flotte pour le suivi de la maintenance des camions et de l\'inventaire avec une interface de suivi intuitive.',
+    'project.truckManagement.longDesc': "Une application MERN stack complète conçue pour optimiser la logistique d'une entreprise de transport. Les fonctionnalités clés incluent le suivi des véhicules en temps réel sur une carte, l'assignation efficace des chauffeurs, l'optimisation des itinéraires et des rapports détaillés. Socket.IO a été utilisé pour pousser les mises à jour de localisation en direct vers le tableau de bord pour un suivi transparent.",
     'project.collabSmile.title': 'Application Mobile CollabSmile',
     'project.collabSmile.desc': 'Application React Native (Expo) connectant dentistes et prothésistes avec gestion des patients, messagerie et partage de modèles 3D.',
+    'project.collabSmile.longDesc': "Construite avec React Native et Expo, cette application mobile permet une collaboration sécurisée entre les professionnels dentaires. Les dentistes peuvent télécharger des images de patients, partager des notes et discuter des plans de traitement dans un environnement sécurisé et authentifié. Le backend est alimenté par une API Django REST Framework qui gère toutes les données et la gestion des utilisateurs.",
     'project.goZone.title': 'Plateforme de Blogging GoZone',
     'project.goZone.desc': 'Plateforme basée sur Django permettant aux créateurs de contenu de publier et gérer des blogs avec un éditeur intégré.',
+    'project.goZone.longDesc': "GoZone est une application web classique rendue côté serveur, construite avec le framework Django et une base de données PostgreSQL. Elle sert de portail communautaire pour découvrir et promouvoir des événements locaux. Le projet met l'accent sur une architecture backend propre, une authentification utilisateur sécurisée et un frontend léger utilisant du JavaScript vanille et du CSS.",
     'project.koora.title': 'Koora Analytics',
     'project.koora.desc': 'Application web fournissant des analyses détaillées de matchs, équipes et joueurs de football avec des tableaux de bord clairs.',
+    'project.koora.longDesc': "Cette plateforme axée sur les données ingère, traite et visualise les statistiques des matchs de football. Le backend, construit avec Django et Django REST Framework, expose une API puissante pour interroger les données de performance des joueurs et des équipes. Le frontend consomme cette API pour afficher des graphiques et des tableaux interactifs, offrant des informations approfondies pour les analystes et les passionnés de football.",
+    'viewDetails': "Voir Détails",
+    'projectDetail.back': "Retour au Portfolio",
+    'projectDetail.about': "À Propos du Projet",
+    'projectDetail.techStack': "Pile Technologique",
+    'projectDetail.links': "Liens du Projet",
+    'projectDetail.gallery': "Galerie",
     'contact.title.part1': 'Prenez',
     'contact.title.part2': 'Contact',
     'contact.subtitle': "Prêt à démarrer votre projet ? Vous avez une question ? J'aimerais avoir de vos nouvelles. Discutons de la manière dont nous pouvons donner vie à vos idées.",
@@ -589,16 +629,30 @@ const translations = {
     'portfolio.cta.github': "عرض على GitHub",
     'project.digitalGuide.title': 'الدليل الرقمي – وزارة الصناعة والمناجم والطاقة',
     'project.digitalGuide.desc': 'دليل رقمي تفاعلي يمكّن المسؤولين من إدارة النصوص والصور والجداول والروابط ومحتوى HTML الديناميكي عبر واجهات بأسلوب CRM للمستخدم والمسؤول.',
+    'project.digitalGuide.longDesc': "تم تطوير هذه البوابة لوزارة الطاقة التونسية، وهي بمثابة مركز محوري للمستثمرين، حيث تبسط الوصول إلى المعلومات الهامة حول اللوائح والفرص والإجراءات. تم بناء الواجهة الأمامية باستخدام React و Tailwind CSS لتجربة مستخدم حديثة، بينما يوفر 백엔드 Node.js و MongoDB إدارة محتوى ديناميكية وقوية.",
+    'project.digitalGuide.role': "مساهم ومطور Full-Stack",
+    'project.digitalGuide.contribution': "كمطور رئيسي في هذا المشروع، ساهمت بالتعاون مع Altaqa Strategy. تضمنت مسؤولياتي تصميم وبناء العديد من الميزات الأساسية للوحة تحكم المسؤولين، وتطوير محرك عرض المحتوى الديناميكي، وضمان الأداء العام للتطبيق وقابليته للتوسع.",
     'project.curvesSmiles.title': 'منصة Curves and Smiles',
     'project.curvesSmiles.desc': 'تطوير الواجهة الأمامية لحل طب أسنان مدعوم بالذكاء الاصطناعي مع نماذج أسنان ثلاثية الأبعاد عبر Three.js وتكامل HTMX.',
+    'project.curvesSmiles.longDesc': "يهدف هذا المشروع إلى إنشاء وجود رقمي ودي وغير مخيف لعيادة تقويم الأسنان. سمح استخدام Django مع HTMX بتفاعل سريع من جانب الخادم دون الحاجة إلى إطار عمل ثقيل من جانب العميل. الميزة الأبرز هي تكامل مخصص لـ Three.js الذي يعرض علاجات الأسنان بشكل ثلاثي الأبعاد، مما يجعل الإجراءات المعقدة أكثر قابلية للفهم للمرضى.",
     'project.truckManagement.title': 'تطبيق إدارة الشاحنات',
     'project.truckManagement.desc': 'تطبيق لإدارة الأسطول لمراقبة صيانة الشاحنات والمخزون مع واجهة تتبع سهلة الاستخدام.',
+    'project.truckManagement.longDesc': "تطبيق MERN stack كامل مصمم لتحسين الخدمات اللوجستية لشركة نقل. تشمل الميزات الرئيسية تتبع المركبات في الوقت الفعلي على خريطة حية، وتعيين السائقين بكفاءة، وتحسين المسارات، وتقارير مفصلة. تم استخدام Socket.IO لدفع تحديثات الموقع المباشرة إلى لوحة القيادة لمراقبة سلسة.",
     'project.collabSmile.title': 'تطبيق CollabSmile للجوال',
     'project.collabSmile.desc': 'تطبيق React Native (Expo) يربط أطباء الأسنان وأخصائيي تركيب الأسنان مع إدارة المرضى والرسائل ومشاركة النماذج ثلاثية الأبعاد.',
+    'project.collabSmile.longDesc': "تم بناء هذا التطبيق المحمول باستخدام React Native و Expo، وهو يتيح التعاون الآمن بين أخصائيي طب الأسنان. يمكن لأطباء الأسنان تحميل صور المرضى ومشاركة الملاحظات ومناقشة خطط العلاج في بيئة آمنة وموثقة. يتم تشغيل الواجهة الخلفية بواسطة Django REST Framework API الذي يدير جميع البيانات وإدارة المستخدمين.",
     'project.goZone.title': 'منصة التدوين GoZone',
     'project.goZone.desc': 'منصة قائمة على Django تسمح لمنشئي المحتوى بنشر وإدارة المدونات باستخدام محرر مدمج.',
+    'project.goZone.longDesc': "GoZone هو تطبيق ويب كلاسيكي يتم عرضه من جانب الخادم، تم بناؤه باستخدام إطار عمل Django وقاعدة بيانات PostgreSQL. يعمل كبوابة مجتمعية لاكتشاف الأحداث المحلية والترويج لها. يركز المشروع على بنية خلفية نظيفة، ومصادقة مستخدم آمنة، وواجهة أمامية خفيفة الوزن باستخدام JavaScript و CSS الأصليين.",
     'project.koora.title': 'تحليلات كورة',
     'project.koora.desc': 'تطبيق ويب يوفر تحليلات مفصلة لمباريات كرة القدم والفرق واللاعبين مع لوحات معلومات أداء واضحة.',
+    'project.koora.longDesc': "تقوم هذه المنصة التي تركز على البيانات بإدخال ومعالجة وتصور إحصائيات مباريات كرة القدم. الواجهة الخلفية، المبنية باستخدام Django و Django REST Framework، تكشف عن واجهة برمجة تطبيقات قوية للاستعلام عن بيانات أداء اللاعبين والفرق. تستهلك الواجهة الأمامية واجهة برمجة التطبيقات هذه لعرض مخططات وجداول تفاعلية، مما يوفر رؤى عميقة لمحللي كرة القدم والمتحمسين.",
+    'viewDetails': "عرض التفاصيل",
+    'projectDetail.back': "العودة إلى الأعمال",
+    'projectDetail.about': "عن المشروع",
+    'projectDetail.techStack': "التقنيات المستخدمة",
+    'projectDetail.links': "روابط المشروع",
+    'projectDetail.gallery': "المعرض",
     'contact.title.part1': 'تواصل',
     'contact.title.part2': 'معي',
     'contact.subtitle': 'هل أنت مستعد لبدء مشروعك؟ لديك سؤال؟ أحب أن أسمع منك. دعنا نناقش كيف يمكننا إحياء أفكارك.',
@@ -659,7 +713,15 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   }, []);
 
   const t = (key: string): string => {
-    return translations[language]?.[key as keyof typeof translations[typeof language]] || key;
+    const keys = key.split('.');
+    let result: any = translations[language];
+    for (const k of keys) {
+      result = result?.[k];
+      if (result === undefined) {
+        return translations[language]?.[key as keyof typeof translations[typeof language]] || key;
+      }
+    }
+    return result || key;
   };
 
   const handleSetLanguage = (lang: Language) => {
@@ -681,7 +743,7 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
 export const useLanguage = () => {
   const context = useContext(LanguageContext);
   if (context === undefined) {
-    throw new Error('useLanguage must be used within a ThemeProvider');
+    throw new Error('useLanguage must be used within a LanguageProvider');
   }
   return context;
 };
