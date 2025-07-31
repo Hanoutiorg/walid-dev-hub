@@ -1,10 +1,5 @@
-Of course! A README for a portfolio project on GitHub should be slightly different. It needs to act as a showcase of your skills, explaining why you chose certain technologies and how you implemented key features.
 
-This README is written from your perspective as the developer, designed to impress recruiters and other developers.
-
-Just copy the text below and paste it into a README.md file in your project's root directory. Be sure to replace the bracketed placeholders [like this] with your own information.
-
-[Your Name]'s Personal Portfolio
+Walid Oueslati's Personal Portfolio
 
 ![alt text](./portfolio-screenshot.gif)
 
