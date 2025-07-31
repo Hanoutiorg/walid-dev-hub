@@ -18,6 +18,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/components/ui/use-toast";
 import { useLanguage } from "@/contexts/LanguageContext";
+import emailjs from '@emailjs/browser';
 
 const Contact = () => {
   const { t, isRTL } = useLanguage();
@@ -33,75 +34,70 @@ const Contact = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-    
-    // Simulate form submission
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    
-    toast({
-      title: t('contact.toast.success.title'),
-      description: t('contact.toast.success.description'),
-    });
-    
-    setFormData({ name: "", email: "", subject: "", message: "" });
-    setIsSubmitting(false);
+
+    const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID;
+    const templateId = import.meta.env.VITE_EMAILJS_CONTACT_TEMPLATE_ID; // Using the specific template for this form
+    const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
+
+    // Robust check for environment variables
+    if (!serviceId || !templateId || !publicKey) {
+      console.error("EmailJS environment variables for the contact form are missing.");
+      toast({
+        title: "Configuration Error",
+        description: "The email service is not set up correctly. Please contact the administrator.",
+        variant: "destructive",
+      });
+      setIsSubmitting(false);
+      return;
+    }
+
+    const templateParams = {
+      from_name: formData.name,
+      from_email: formData.email,
+      subject: formData.subject,
+      message: formData.message,
+    };
+
+    try {
+      await emailjs.send(serviceId, templateId, templateParams, publicKey);
+      
+      toast({
+        title: t('contact.toast.success.title'),
+        description: t('contact.toast.success.description'),
+      });
+      
+      setFormData({ name: "", email: "", subject: "", message: "" });
+    } catch (error) {
+      console.error('Failed to send email:', error);
+      toast({
+        title: "Uh oh! Something went wrong.",
+        description: "There was a problem sending your message. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setFormData(prev => ({
-      ...prev,
-      [e.target.name]: e.target.value
-    }));
+    setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
   const contactInfo = [
-    {
-      icon: Mail,
-      title: t('contact.info.email.title'),
-      description: t('contact.info.email.desc'),
-      value: "oueslatiwalid41@gmail.com",
-      action: "mailto:oueslatiwalid41@gmail.com", // Corrected link
-    },
-    {
-      icon: Phone,
-      title: t('contact.info.phone.title'),
-      description: t('contact.info.phone.desc'),
-      value: "+216 53 311 225",
-      action: "tel:+21653311225",
-    },
-    {
-      icon: MapPin,
-      title: t('contact.info.location.title'),
-      description: t('contact.info.location.desc'),
-      value: "Tunis, Tunisia",
-      action: "#",
-    },
+    { icon: Mail, title: t('contact.info.email.title'), description: t('contact.info.email.desc'), value: "oueslatiwalid41@gmail.com", action: "mailto:oueslatiwalid41@gmail.com" },
+    { icon: Phone, title: t('contact.info.phone.title'), description: t('contact.info.phone.desc'), value: "+216 53 311 225", action: "tel:+21653311225" },
+    { icon: MapPin, title: t('contact.info.location.title'), description: t('contact.info.location.desc'), value: "Tunis, Tunisia", action: "#" },
   ];
 
   const socialLinks = [
-    { 
-      name: "WhatsApp", 
-      Icon: MessageSquare, 
-      url: "https://wa.me/21653311225" // Real WhatsApp link
-    },
-    { 
-      name: "LinkedIn", 
-      Icon: Linkedin, 
-      url: "https://linkedin.com/in/your-profile" // Replace with your URL
-    },
-    { 
-      name: "GitHub", 
-      Icon: Github, 
-      url: "https://github.com/your-username" // Replace with your URL
-    },
-    { 
-      name: "Twitter", 
-      Icon: Twitter, 
-      url: "https://twitter.com/your-username" // Replace with your URL
-    },
+    { name: "WhatsApp", Icon: MessageSquare, url: "https://wa.me/21653311225" },
+    { name: "LinkedIn", Icon: Linkedin, url: "https://www.linkedin.com/in/walid-oueslati-037307227/" },
+    { name: "GitHub", Icon: Github, url: "https://github.com/walid-oueslati" },
+    { name: "Twitter", Icon: Twitter, url: "https://twitter.com/your-username" },
   ];
 
   return (
-    <div className="min-h-screen py-20">
+    <div className="min-h-screen py-20 bg-muted/20">
       <div className="container mx-auto px-4">
         {/* Header */}
         <div className="text-center mb-16">
@@ -111,9 +107,7 @@ const Contact = () => {
               {t('contact.title.part2')}
             </span>
           </h1>
-          <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-            {t('contact.subtitle')}
-          </p>
+          <p className="text-xl text-muted-foreground max-w-3xl mx-auto">{t('contact.subtitle')}</p>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 max-w-7xl mx-auto">
@@ -122,49 +116,30 @@ const Contact = () => {
             <Card className="p-8">
               <div className="mb-8">
                 <h2 className="text-2xl font-bold mb-2">{t('contact.form.title')}</h2>
-                <p className="text-muted-foreground">
-                  {t('contact.form.subtitle')}
-                </p>
+                <p className="text-muted-foreground">{t('contact.form.subtitle')}</p>
               </div>
 
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="space-y-2">
                     <Label htmlFor="name">{t('contact.form.name.label')}</Label>
-                    <Input
-                      id="name" name="name" value={formData.name} onChange={handleChange}
-                      placeholder={t('contact.form.name.placeholder')} required
-                    />
+                    <Input id="name" name="name" value={formData.name} onChange={handleChange} placeholder={t('contact.form.name.placeholder')} required />
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="email">{t('contact.form.email.label')}</Label>
-                    <Input
-                      id="email" name="email" type="email" value={formData.email} onChange={handleChange}
-                      placeholder={t('contact.form.email.placeholder')} required
-                    />
+                    <Input id="email" name="email" type="email" value={formData.email} onChange={handleChange} placeholder={t('contact.form.email.placeholder')} required />
                   </div>
                 </div>
-
                 <div className="space-y-2">
                   <Label htmlFor="subject">{t('contact.form.subject.label')}</Label>
-                  <Input
-                    id="subject" name="subject" value={formData.subject} onChange={handleChange}
-                    placeholder={t('contact.form.subject.placeholder')} required
-                  />
+                  <Input id="subject" name="subject" value={formData.subject} onChange={handleChange} placeholder={t('contact.form.subject.placeholder')} required />
                 </div>
-
                 <div className="space-y-2">
                   <Label htmlFor="message">{t('contact.form.message.label')}</Label>
-                  <Textarea
-                    id="message" name="message" value={formData.message} onChange={handleChange}
-                    placeholder={t('contact.form.message.placeholder')} rows={6} required
-                  />
+                  <Textarea id="message" name="message" value={formData.message} onChange={handleChange} placeholder={t('contact.form.message.placeholder')} rows={6} required />
                 </div>
-
                 <Button type="submit" size="lg" className="w-full bg-gradient-primary" disabled={isSubmitting}>
-                  {isSubmitting ? (
-                    t('contact.form.button.sending')
-                  ) : (
+                  {isSubmitting ? ( t('contact.form.button.sending') ) : (
                     <>
                       <Send className={`w-4 h-4 ${isRTL ? 'ml-2' : 'mr-2'}`} />
                       {t('contact.form.button.send')}
@@ -188,14 +163,13 @@ const Contact = () => {
             <div className="space-y-4">
               <h3 className="text-xl font-bold mb-4">{t('contact.info.title')}</h3>
               {contactInfo.map((info, index) => (
-                <a key={index} href={info.action} className="flex items-center gap-4 p-4 rounded-lg hover:bg-surface transition-colors">
-                  <div className="w-12 h-12 bg-gradient-primary rounded-full flex items-center justify-center">
+                <a key={index} href={info.action} target="_blank" rel="noopener noreferrer" className="flex items-center gap-4 p-4 rounded-lg hover:bg-surface transition-colors">
+                  <div className="w-12 h-12 bg-gradient-primary rounded-full flex items-center justify-center flex-shrink-0">
                     <info.icon className="w-6 h-6 text-white" />
                   </div>
                   <div>
                     <h4 className="font-semibold">{info.title}</h4>
-                    <p className="text-sm text-muted-foreground">{info.description}</p>
-                    <p className="text-sm font-medium">{info.value}</p>
+                    <p className="text-sm text-muted-foreground break-all">{info.value}</p>
                   </div>
                 </a>
               ))}
@@ -206,10 +180,7 @@ const Contact = () => {
               <div className="grid grid-cols-2 gap-3">
                 {socialLinks.map((link, index) => (
                   <a
-                    key={index}
-                    href={link.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
+                    key={index} href={link.url} target="_blank" rel="noopener noreferrer"
                     className="flex items-center gap-3 p-3 rounded-lg border hover:shadow-sm transition-all"
                   >
                     <link.Icon className="w-5 h-5 text-muted-foreground" />
@@ -224,7 +195,9 @@ const Contact = () => {
                 <MessageCircle className="w-8 h-8 text-primary mx-auto mb-4" />
                 <h3 className="font-bold mb-2">{t('contact.availability.title')}</h3>
                 <p className="text-sm text-muted-foreground mb-4">{t('contact.availability.desc')}</p>
-                <Button className="w-full bg-gradient-primary">{t('contact.availability.button')}</Button>
+                <Button asChild className="w-full bg-gradient-primary">
+                  <a href="https://calendly.com/your-link" target="_blank" rel="noopener noreferrer">{t('contact.availability.button')}</a>
+                </Button>
               </div>
             </Card>
           </div>
